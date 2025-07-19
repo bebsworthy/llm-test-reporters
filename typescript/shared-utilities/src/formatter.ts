@@ -85,10 +85,6 @@ export class Formatter {
   }
 
   static ensureNoAnsiCodes(text: string): string {
-    const stripped = this.stripAnsiCodes(text);
-    if (stripped !== text) {
-      console.warn('Warning: ANSI codes detected and removed from reporter output');
-    }
-    return stripped;
+    return this.stripAnsiCodes(text);
   }
 }

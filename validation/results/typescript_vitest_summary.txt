@@ -23,12 +23,12 @@ FAILED TESTS:
 - concurrent test 2: expected false to be true // Object.is equality
 - add(2, 2) should return 5: expected 4 to be 5 // Object.is equality
 - should use toBeTypeOf: expected '42' to be type of 'number'
-- should use toSatisfy: expected 5 to satisfy [Function isEven]
+- should use toSatisfy: expect(received).toSatisfy()
 
 ---
 ## SUMMARY
 - PASSED SUITES: 0
 - FAILED SUITES: 3
 - TOTAL TESTS: 23 (12 passed, 11 failed)
-- DURATION: 0.79s
+- DURATION: 0.81s
 - EXIT CODE: 1

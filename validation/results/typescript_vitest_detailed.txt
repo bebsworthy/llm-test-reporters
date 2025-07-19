@@ -1,6 +1,3 @@
-> vitest run --config vitest.example.config.mjs
-
-
 # LLM TEST REPORTER - DETAILED MODE
 
 ## TEST FAILURE #1
@@ -140,7 +137,7 @@ EXPECTED: {
 }
 RECEIVED: {
   "name": "Test",
-  "timestamp": 1752937898917,
+  "timestamp": 1752945012002,
   "value": 42,
 }
 
@@ -158,7 +155,7 @@ FAILURE REASON: Expected value {
   "value": 42,
 } but received {
   "name": "Test",
-  "timestamp": 1752937898917,
+  "timestamp": 1752945012002,
   "value": 42,
 }
 FIX HINT: Verify the assertion matches the actual behavior
@@ -252,5 +249,5 @@ FIX HINT: Verify the assertion matches the actual behavior
 ## SUMMARY
 - TOTAL TESTS: 23 (12 passed, 11 failed)
 - FAILURE RATE: 47.83%
-- DURATION: 0.81s
+- DURATION: 0.82s
 - EXIT CODE: 1

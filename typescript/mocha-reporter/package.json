@@ -1,1 +1,40 @@
-{"name": "@llm-reporters/mocha-reporter", "version": "0.1.0", "private": true}
+{
+  "name": "@llm-reporters/mocha-reporter",
+  "version": "1.0.0",
+  "description": "LLM-optimized reporter for Mocha",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "mocha --reporter ./dist/index.js tests/**/*.test.js",
+    "test:example": "mocha --reporter ./dist/index.js tests/**/*.test.js",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "mocha",
+    "reporter",
+    "llm",
+    "ai",
+    "test"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "mocha": ">=9.0.0"
+  },
+  "dependencies": {
+    "@llm-reporters/shared-utilities": "file:../shared-utilities"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^24.0.15",
+    "mocha": "^10.0.0",
+    "typescript": "^5.8.3"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

@@ -58,12 +58,12 @@
 - ✅ Task 1.3: Create Vitest test suite
 - ✅ Task 1.4: Add Vitest-specific features
 
-### Phase 2: Mocha Reporter (0/4 completed)
+### Phase 2: Mocha Reporter (4/4 completed)
 
-- Task 2.1: Create Mocha reporter package
-- Task 2.2: Implement Mocha reporter adapter
-- Task 2.3: Create Mocha test suite
-- Task 2.4: Handle Mocha's unique async patterns
+- ✅ Task 2.1: Create Mocha reporter package
+- ✅ Task 2.2: Implement Mocha reporter adapter
+- ✅ Task 2.3: Create Mocha test suite
+- ✅ Task 2.4: Handle Mocha's unique async patterns
 
 ### Phase 3: Playwright Reporter (0/5 completed)
 

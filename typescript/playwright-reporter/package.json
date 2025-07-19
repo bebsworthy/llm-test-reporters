@@ -1,1 +1,40 @@
-{"name": "@llm-reporters/playwright-reporter", "version": "0.1.0", "private": true}
+{
+  "name": "@llm-reporters/playwright-reporter",
+  "version": "1.0.0",
+  "description": "LLM-optimized reporter for Playwright Test",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "playwright test --reporter=./dist/index.js",
+    "test:example": "playwright test --config=playwright.example.config.ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "playwright",
+    "reporter",
+    "llm",
+    "ai",
+    "test",
+    "e2e"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "@playwright/test": ">=1.40.0"
+  },
+  "dependencies": {
+    "@llm-reporters/shared-utilities": "file:../shared-utilities"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^24.0.15",
+    "typescript": "^5.8.3"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

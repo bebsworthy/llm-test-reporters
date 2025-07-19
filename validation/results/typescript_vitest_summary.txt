@@ -1,6 +1,3 @@
-> vitest run --config vitest.example.config.mjs
-
-
 # LLM TEST REPORTER - SUMMARY MODE
 
 SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/async.test.ts

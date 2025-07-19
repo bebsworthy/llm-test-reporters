@@ -26,6 +26,11 @@ export interface TestError {
   column?: number;
   stackTrace?: string;
   timeout?: number;
+  // E2E specific fields
+  browserName?: string;
+  screenshotPath?: string;
+  tracePath?: string;
+  videoPath?: string;
 }
 
 export interface TestResult {

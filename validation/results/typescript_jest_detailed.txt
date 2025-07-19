@@ -1,6 +1,3 @@
-> jest --config=jest.example.config.js
-
-
 # LLM TEST REPORTER - DETAILED MODE
 
 ## TEST FAILURE #1
@@ -148,5 +145,5 @@ FIX HINT: Check the expected value or fix the implementation to return correct r
 ## SUMMARY
 - TOTAL TESTS: 13 (6 passed, 7 failed)
 - FAILURE RATE: 53.85%
-- DURATION: 1.64s
+- DURATION: 1.69s
 - EXIT CODE: 1

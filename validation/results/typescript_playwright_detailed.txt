@@ -1,0 +1,90 @@
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: chromium > validation.spec.ts > Validation Tests
+TEST: chromium > validation.spec.ts > Validation Tests > should fail number comparison > chromium
+FILE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/validation.spec.ts:11
+TYPE: Assertion Error
+
+EXPECTED: 5
+RECEIVED: 4
+
+CODE CONTEXT:
+   9 | 
+  10 |   test('should fail number comparison', async () => {
+> 11 |     expect(2 + 2).toBe(5);
+     |                   ^
+  12 |   });
+  13 | 
+
+FAILURE REASON: Expected value 5 but received 4
+FIX HINT: Check the expected value or fix the implementation to return correct result
+
+## TEST FAILURE #2
+SUITE: chromium > validation.spec.ts > Validation Tests
+TEST: chromium > validation.spec.ts > Validation Tests > should fail string assertion > chromium
+FILE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/validation.spec.ts:15
+TYPE: Assertion Error
+
+EXPECTED: "Goodbye World"
+RECEIVED: "Hello World"
+
+CODE CONTEXT:
+  13 | 
+  14 |   test('should fail string assertion', async () => {
+> 15 |     expect('Hello World').toBe('Goodbye World');
+     |                           ^
+  16 |   });
+  17 | 
+
+FAILURE REASON: Expected value "Goodbye World" but received "Hello World"
+FIX HINT: Check the expected value or fix the implementation to return correct result
+
+## TEST FAILURE #3
+SUITE: chromium > validation.spec.ts > Validation Tests
+TEST: chromium > validation.spec.ts > Validation Tests > should handle array comparison > chromium
+FILE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/validation.spec.ts:19
+TYPE: Assertion Error
+
+CODE CONTEXT:
+  17 | 
+  18 |   test('should handle array comparison', async () => {
+> 19 |     expect([1, 2, 3]).toEqual([1, 2, 4]);
+     |                       ^
+  20 |   });
+  21 | 
+
+FAILURE REASON: expect(received).toEqual(expected) // deep equality
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #4
+SUITE: chromium > validation.spec.ts > Validation Tests
+TEST: chromium > validation.spec.ts > Validation Tests > should fail on object property > chromium
+FILE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/validation.spec.ts:24
+TYPE: Assertion Error
+
+EXPECTED: 25
+RECEIVED: 30
+
+CODE CONTEXT:
+  22 |   test('should fail on object property', async () => {
+  23 |     const obj = { name: 'John', age: 30 };
+> 24 |     expect(obj.age).toBe(25);
+     |                     ^
+  25 |   });
+  26 | 
+
+FAILURE REASON: Expected value 25 but received 30
+FIX HINT: Check the expected value or fix the implementation to return correct result
+
+---
+## ERROR PATTERNS DETECTED
+- 4 tests failed due to Multiple assertion failures
+- 4 tests failed due to Multiple failures in tests module
+
+---
+## SUMMARY
+- TOTAL TESTS: 6 (1 passed, 4 failed)
+- FAILURE RATE: 66.67%
+- DURATION: 1.04s
+- EXIT CODE: 1

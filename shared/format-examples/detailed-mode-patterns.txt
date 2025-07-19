@@ -1,0 +1,120 @@
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: User Service
+TEST: User Service > createUser > should validate email format
+FILE: /src/services/user.test.ts:12
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: User created successfully
+
+CODE CONTEXT:
+  10 |     it('should validate email format', async () => {
+  11 |       const invalidEmail = 'not-an-email';
+> 12 |       await expect(userService.createUser({ email: invalidEmail })).rejects.toThrow('ValidationError');
+    |                                                                              ^
+  13 |     });
+  14 |   });
+
+FAILURE REASON: Email validation not implemented - invalid email was accepted
+FIX HINT: Add email format validation in createUser method before saving
+
+## TEST FAILURE #2
+SUITE: User Service
+TEST: User Service > updateUser > should validate email format
+FILE: /src/services/user.test.ts:28
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: User updated successfully
+
+CODE CONTEXT:
+  26 |     it('should validate email format', async () => {
+  27 |       const invalidEmail = 'also-not-an-email';
+> 28 |       await expect(userService.updateUser(1, { email: invalidEmail })).rejects.toThrow('ValidationError');
+    |                                                                                ^
+  29 |     });
+  30 |   });
+
+FAILURE REASON: Email validation not implemented - invalid email was accepted
+FIX HINT: Add email format validation in updateUser method before saving
+
+## TEST FAILURE #3
+SUITE: Product Service
+TEST: Product Service > createProduct > should validate price is positive
+FILE: /src/services/product.test.ts:15
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: Product created successfully
+
+CODE CONTEXT:
+  13 |     it('should validate price is positive', async () => {
+  14 |       const negativePrice = -10;
+> 15 |       await expect(productService.createProduct({ price: negativePrice })).rejects.toThrow('ValidationError');
+    |                                                                                    ^
+  16 |     });
+  17 |   });
+
+FAILURE REASON: Price validation not implemented - negative price was accepted
+FIX HINT: Add validation to ensure price > 0 in createProduct method
+
+## TEST FAILURE #4
+SUITE: Product Service
+TEST: Product Service > updateProduct > should validate price is positive
+FILE: /src/services/product.test.ts:31
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: Product updated successfully
+
+CODE CONTEXT:
+  29 |     it('should validate price is positive', async () => {
+  30 |       const negativePrice = -25;
+> 31 |       await expect(productService.updateProduct(1, { price: negativePrice })).rejects.toThrow('ValidationError');
+    |                                                                                       ^
+  32 |     });
+  33 |   });
+
+FAILURE REASON: Price validation not implemented - negative price was accepted
+FIX HINT: Add validation to ensure price > 0 in updateProduct method
+
+## TEST FAILURE #5
+SUITE: Auth Service
+TEST: Auth Service > login > should validate password length
+FILE: /src/services/auth.test.ts:22
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: Login successful
+
+CODE CONTEXT:
+  20 |     it('should validate password length', async () => {
+  21 |       const shortPassword = '123';
+> 22 |       await expect(authService.login('user@example.com', shortPassword)).rejects.toThrow('ValidationError');
+    |                                                                                  ^
+  23 |     });
+  24 |   });
+
+FAILURE REASON: Password length validation not implemented
+FIX HINT: Add minimum password length check (e.g., >= 8 characters)
+
+---
+## ERROR PATTERNS DETECTED
+- 2 tests failed due to missing email validation
+- 2 tests failed due to missing numeric validation for prices
+- 1 test failed due to missing password length validation
+
+## SUGGESTED FOCUS AREAS
+1. Implement input validation layer for all service methods
+2. Add email format validation using regex or validation library
+3. Add numeric range validation for monetary values
+4. Implement password policy validation
+
+---
+## SUMMARY
+- TOTAL TESTS: 87 (82 passed, 5 failed)
+- FAILURE RATE: 5.75%
+- DURATION: 2.34s
+- EXIT CODE: 1

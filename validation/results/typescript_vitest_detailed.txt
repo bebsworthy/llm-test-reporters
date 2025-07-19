@@ -1,0 +1,249 @@
+> vitest run --config vitest.example.config.mjs
+
+
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: Async Operations
+TEST: should handle promise rejection
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/async.test.ts:12
+TYPE: Assertion Error
+
+EXPECTED: undefined
+RECEIVED: undefined
+
+CODE CONTEXT:
+  10 |     // This will fail - promise resolves instead of rejects
+  11 |     const promise = Promise.resolve('success');
+> 12 |     await expect(promise).rejects.toThrow();
+     |                         ^
+  13 |   });
+  14 | 
+
+FAILURE REASON: Expected value undefined but received undefined
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #2
+SUITE: Async Operations
+TEST: should timeout on slow operation
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/async.test.ts:1
+TYPE: Timeout
+
+EXPECTED: undefined
+RECEIVED: undefined
+
+CODE CONTEXT:
+> 1 | import { describe, it, expect, vi } from 'vitest';
+  2 | 
+  3 | describe('Async Operations', () => {
+
+FAILURE REASON: Test execution exceeded configured timeout
+FIX HINT: Increase test timeout or optimize async operations
+
+## TEST FAILURE #3
+SUITE: Async Operations
+TEST: should handle concurrent promises
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/async.test.ts:35
+TYPE: Assertion Error
+
+EXPECTED: undefined
+RECEIVED: undefined
+
+CODE CONTEXT:
+  33 |       Promise.resolve(1),
+  34 |       Promise.resolve(2),
+> 35 |       Promise.reject(new Error('Failed')), // This will cause test to fail
+     |                      ^
+  36 |       Promise.resolve(4)
+  37 |     ];
+
+FAILURE REASON: Expected value undefined but received undefined
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #4
+SUITE: Calculator > addition
+TEST: should handle negative numbers
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/math.test.ts:43
+TYPE: Assertion Error
+
+EXPECTED: 0
+RECEIVED: 2
+
+CODE CONTEXT:
+  41 |     it('should handle negative numbers', () => {
+  42 |       // This will fail due to the bug
+> 43 |       expect(calc.add(-1, 1)).toBe(0);
+     |                               ^
+  44 |     });
+  45 | 
+
+FAILURE REASON: Expected value 0 but received 2
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #5
+SUITE: Calculator > division
+TEST: should throw on divide by zero
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/math.test.ts:58
+TYPE: Assertion Error
+
+EXPECTED: undefined
+RECEIVED: undefined
+
+CODE CONTEXT:
+  56 |     it('should throw on divide by zero', () => {
+  57 |       // This will fail - doesn't throw
+> 58 |       expect(() => calc.divide(10, 0)).toThrow();
+     |                                        ^
+  59 |     });
+  60 |   });
+
+FAILURE REASON: Expected value undefined but received undefined
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #6
+SUITE: Vitest Specific Features > Mocking
+TEST: should spy on methods
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/vitest-specific.test.ts:21
+TYPE: Assertion Error
+
+EXPECTED: undefined
+RECEIVED: undefined
+
+CODE CONTEXT:
+  19 |       
+  20 |       // This will fail - wrong expectation
+> 21 |       expect(spy).toHaveBeenCalledWith(10);
+     |                   ^
+  22 |     });
+  23 |   });
+
+FAILURE REASON: Expected value undefined but received undefined
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #7
+SUITE: Vitest Specific Features > Snapshots
+TEST: should match snapshot
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/vitest-specific.test.ts:33
+TYPE: Assertion Error
+
+EXPECTED: {
+  "name": "Test",
+  "timestamp": 1752935822306,
+  "value": 42,
+}
+RECEIVED: {
+  "name": "Test",
+  "timestamp": 1752937435543,
+  "value": 42,
+}
+
+CODE CONTEXT:
+  31 |       };
+  32 |       
+> 33 |       expect(data).toMatchSnapshot();
+     |                    ^
+  34 |     });
+  35 |   });
+
+FAILURE REASON: Expected value {
+  "name": "Test",
+  "timestamp": 1752935822306,
+  "value": 42,
+} but received {
+  "name": "Test",
+  "timestamp": 1752937435543,
+  "value": 42,
+}
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #8
+SUITE: Vitest Specific Features > Concurrent Tests
+TEST: concurrent test 2
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/vitest-specific.test.ts:46
+TYPE: Assertion Error
+
+EXPECTED: true
+RECEIVED: false
+
+CODE CONTEXT:
+  44 |       await new Promise(resolve => setTimeout(resolve, 100));
+  45 |       // This will fail
+> 46 |       expect(false).toBe(true);
+     |                     ^
+  47 |     });
+  48 |   });
+
+FAILURE REASON: Expected value true but received false
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #9
+SUITE: Vitest Specific Features > Test Each
+TEST: add(2, 2) should return 5
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/vitest-specific.test.ts:56
+TYPE: Assertion Error
+
+EXPECTED: 5
+RECEIVED: 4
+
+CODE CONTEXT:
+  54 |       [2, 2, 5], // This will fail
+  55 |     ])('add(%i, %i) should return %i', (a, b, expected) => {
+> 56 |       expect(a + b).toBe(expected);
+     |                     ^
+  57 |     });
+  58 |   });
+
+FAILURE REASON: Expected value 5 but received 4
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #10
+SUITE: Vitest Specific Features > Extended Matchers
+TEST: should use toBeTypeOf
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/vitest-specific.test.ts:64
+TYPE: Assertion Error
+
+EXPECTED: number
+RECEIVED: string
+
+CODE CONTEXT:
+  62 |       const value: any = '42';
+  63 |       // This will fail - value is string not number
+> 64 |       expect(value).toBeTypeOf('number');
+     |                     ^
+  65 |     });
+  66 | 
+
+FAILURE REASON: Expected value number but received string
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #11
+SUITE: Vitest Specific Features > Extended Matchers
+TEST: should use toSatisfy
+FILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/vitest-specific.test.ts:70
+TYPE: Assertion Error
+
+EXPECTED: true
+RECEIVED: false
+
+CODE CONTEXT:
+  68 |       const isEven = (n: number) => n % 2 === 0;
+  69 |       // This will fail - 5 is not even
+> 70 |       expect(5).toSatisfy(isEven);
+     |                 ^
+  71 |     });
+  72 |   });
+
+FAILURE REASON: Expected value true but received false
+FIX HINT: Verify the assertion matches the actual behavior
+
+---
+## ERROR PATTERNS DETECTED
+- 11 tests failed due to Multiple failures in tests module
+- 10 tests failed due to Multiple assertion failures
+
+---
+## SUMMARY
+- TOTAL TESTS: 23 (12 passed, 11 failed)
+- FAILURE RATE: 47.83%
+- DURATION: 0.78s
+- EXIT CODE: 1

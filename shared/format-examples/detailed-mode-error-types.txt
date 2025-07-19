@@ -1,0 +1,119 @@
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: Error Types Demo
+TEST: Types > should handle null value
+FILE: /src/errors.test.ts:15
+TYPE: Type Error
+
+EXPECTED: property access to succeed
+RECEIVED: Cannot read property 'length' of null
+
+CODE CONTEXT:
+  13 |     it('should handle null value', () => {
+  14 |       const value = null;
+> 15 |       expect(value.length).toBe(0);
+    |                    ^
+  16 |     });
+  17 |   });
+
+FAILURE REASON: Attempting to access property 'length' on null value
+FIX HINT: Add null check before accessing properties: if (value !== null)
+
+## TEST FAILURE #2
+SUITE: Error Types Demo
+TEST: References > should use defined variable
+FILE: /src/errors.test.ts:25
+TYPE: Reference Error
+
+EXPECTED: variable to be defined
+RECEIVED: undefinedVariable is not defined
+
+CODE CONTEXT:
+  23 |     it('should use defined variable', () => {
+  24 |       // Missing variable declaration
+> 25 |       expect(undefinedVariable).toBe('value');
+    |              ^
+  26 |     });
+  27 |   });
+
+FAILURE REASON: Variable 'undefinedVariable' is used without being declared
+FIX HINT: Declare the variable before use: const undefinedVariable = 'value';
+
+## TEST FAILURE #3
+SUITE: Error Types Demo
+TEST: Async > should complete within timeout
+FILE: /src/errors.test.ts:35
+TYPE: Timeout
+
+EXPECTED: test to complete within 1000ms
+RECEIVED: Test exceeded timeout of 1000ms
+
+CODE CONTEXT:
+  33 |     it('should complete within timeout', async () => {
+  34 |       await new Promise(resolve => {
+> 35 |         setTimeout(resolve, 2000);
+    |         ^
+  36 |       });
+  37 |       expect(true).toBe(true);
+
+FAILURE REASON: Async operation took 2000ms but test timeout is 1000ms
+FIX HINT: Either reduce operation time or increase test timeout with jest.setTimeout()
+
+## TEST FAILURE #4
+SUITE: Error Types Demo
+TEST: Lifecycle > should setup properly
+FILE: /src/errors.test.ts:5
+TYPE: Test Setup Error
+
+EXPECTED: beforeEach hook to complete successfully
+RECEIVED: Failed in beforeEach hook: Cannot connect to test database
+
+CODE CONTEXT:
+  3 |   beforeEach(async () => {
+  4 |     // Attempting to connect to non-existent database
+> 5 |     await db.connect('test://localhost:9999');
+    |              ^
+  6 |   });
+  7 |
+
+FAILURE REASON: Database connection failed in test setup
+FIX HINT: Ensure test database is running or use mock database for unit tests
+
+## TEST FAILURE #5
+SUITE: Error Types Demo
+TEST: Lifecycle > should cleanup properly
+FILE: /src/errors.test.ts:45
+TYPE: Test Teardown Error
+
+EXPECTED: afterEach hook to complete successfully
+RECEIVED: Failed in afterEach hook: ENOENT: no such file or directory
+
+CODE CONTEXT:
+  43 |   afterEach(() => {
+  44 |     // Trying to remove non-existent file
+> 45 |     fs.unlinkSync('/tmp/test-file-does-not-exist.txt');
+    |        ^
+  46 |   });
+  47 |
+
+FAILURE REASON: Attempted to delete non-existent file in cleanup
+FIX HINT: Check if file exists before deletion: if (fs.existsSync(path))
+
+---
+## ERROR PATTERNS DETECTED
+- 2 tests failed due to lifecycle hook errors
+- 1 test failed due to null/undefined access
+- 1 test failed due to timeout configuration
+
+## SUGGESTED FOCUS AREAS
+1. Add proper null/undefined checks before property access
+2. Review test lifecycle hooks for proper error handling
+3. Adjust timeout settings for async operations
+
+---
+## SUMMARY
+- TOTAL TESTS: 50 (45 passed, 5 failed)
+- FAILURE RATE: 10.00%
+- DURATION: 3.45s
+- EXIT CODE: 1

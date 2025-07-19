@@ -1,0 +1,39 @@
+{
+  "name": "@llm-reporters/vitest-reporter",
+  "version": "1.0.0",
+  "description": "LLM-optimized reporter for Vitest",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:example": "vitest run --config vitest.example.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "vitest",
+    "reporter",
+    "llm",
+    "ai",
+    "test"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "vitest": ">=0.34.0"
+  },
+  "dependencies": {
+    "@llm-reporters/shared-utilities": "file:../shared-utilities"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^0.34.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

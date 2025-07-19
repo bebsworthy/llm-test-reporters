@@ -1,0 +1,14 @@
+# LLM TEST REPORTER - SUMMARY MODE
+
+SUITE: /src/calculator.test.ts
+FAILED TESTS:
+- Calculator > addition > should handle negative numbers: Expected 0 but received -2
+- Calculator > division > should throw on divide by zero: Expected function to throw 'Division by zero'
+
+---
+## SUMMARY
+- PASSED SUITES: 3
+- FAILED SUITES: 1
+- TOTAL TESTS: 25 (23 passed, 2 failed)
+- DURATION: 1.23s
+- EXIT CODE: 1

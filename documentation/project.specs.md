@@ -32,7 +32,6 @@
 -  /shared
    -  /format-examples          # Example outputs for all reporters
    -  /validation-suite         # Common test scenarios
-   - format-spec.md           # Copy of format specification
 -  /typescript
    -  /jest-reporter
       -  src/

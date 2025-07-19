@@ -1,0 +1,78 @@
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: User Service
+TEST: User Service > createUser > should validate email
+FILE: /src/services/user.test.ts:12
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: User created successfully
+
+CODE CONTEXT:
+  10 |     it('should validate email', async () => {
+  11 |       const invalidEmail = 'not-an-email';
+> 12 |       await expect(userService.createUser({ email: invalidEmail })).rejects.toThrow('ValidationError');
+     |                                                                              ^
+  13 |     });
+  14 |   });
+
+FAILURE REASON: Expected function to throw ValidationError but it succeeded
+FIX HINT: Add email validation in createUser method before saving
+
+## TEST FAILURE #2
+SUITE: User Service
+TEST: User Service > updateUser > should validate email
+FILE: /src/services/user.test.ts:28
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: User updated successfully
+
+CODE CONTEXT:
+  26 |     it('should validate email', async () => {
+  27 |       const invalidEmail = 'also-not-an-email';
+> 28 |       await expect(userService.updateUser(1, { email: invalidEmail })).rejects.toThrow('ValidationError');
+     |                                                                                ^
+  29 |     });
+  30 |   });
+
+FAILURE REASON: Expected function to throw ValidationError but it succeeded
+FIX HINT: Add email validation in updateUser method before saving
+
+## TEST FAILURE #3
+SUITE: Product Service
+TEST: Product Service > createProduct > should validate price
+FILE: /src/services/product.test.ts:15
+TYPE: Assertion Error
+
+EXPECTED: ValidationError
+RECEIVED: Product created successfully
+
+CODE CONTEXT:
+  13 |     it('should validate price', async () => {
+  14 |       const negativePrice = -10;
+> 15 |       await expect(productService.createProduct({ price: negativePrice })).rejects.toThrow('ValidationError');
+     |                                                                                    ^
+  16 |     });
+  17 |   });
+
+FAILURE REASON: Expected function to throw ValidationError but it succeeded
+FIX HINT: Add price validation to ensure price > 0 in createProduct method
+
+---
+## ERROR PATTERNS DETECTED
+- 2 tests failed due to missing email validation
+- 1 test failed due to missing numeric validation
+
+## SUGGESTED FOCUS AREAS
+1. Implement input validation layer for all service methods
+2. Add email format validation using regex or validation library
+3. Add numeric range validation for monetary values
+
+---
+## SUMMARY
+- TOTAL TESTS: 30 (27 passed, 3 failed)
+- FAILURE RATE: 10.00%
+- DURATION: 1.89s
+- EXIT CODE: 1

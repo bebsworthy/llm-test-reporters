@@ -1,0 +1,56 @@
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: Calculator Tests
+TEST: Calculator > addition > should handle negative numbers
+FILE: /src/calculator.test.ts:8
+TYPE: Assertion Error
+
+EXPECTED: 0
+RECEIVED: -2
+
+CODE CONTEXT:
+  6 |     
+  7 |     it('should handle negative numbers', () => {
+> 8 |       expect(add(-1, 1)).toBe(0);
+    |                          ^
+  9 |     });
+  10 |   });
+
+FAILURE REASON: add(-1, 1) returned -2 instead of expected 0
+FIX HINT: Check the add function implementation for handling negative numbers correctly
+
+## TEST FAILURE #2
+SUITE: Calculator Tests
+TEST: Calculator > division > should throw on divide by zero
+FILE: /src/calculator.test.ts:20
+TYPE: Assertion Error
+
+EXPECTED: function to throw 'Division by zero'
+RECEIVED: function did not throw
+
+CODE CONTEXT:
+  18 |     
+  19 |     it('should throw on divide by zero', () => {
+> 20 |       expect(() => divide(10, 0)).toThrow('Division by zero');
+    |                                   ^
+  21 |     });
+  22 |   });
+
+FAILURE REASON: divide(10, 0) did not throw expected error
+FIX HINT: Add zero check in divide function and throw error with message 'Division by zero'
+
+---
+## ERROR PATTERNS DETECTED
+- 2 tests failed due to incorrect function implementation
+
+## SUGGESTED FOCUS AREAS
+1. Review arithmetic operations for edge cases
+2. Implement proper error handling for invalid inputs
+
+---
+## SUMMARY
+- TOTAL TESTS: 25 (23 passed, 2 failed)
+- FAILURE RATE: 8.00%
+- DURATION: 1.23s
+- EXIT CODE: 1

@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Vitest Specific Features > Snapshots > should match snapshot 1`] = `
+{
+  "name": "Test",
+  "timestamp": 1752935822306,
+  "value": 42,
+}
+`;

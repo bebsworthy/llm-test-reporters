@@ -1,0 +1,30 @@
+> jest --config=jest.example.config.js
+
+
+# LLM TEST REPORTER - SUMMARY MODE
+
+SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/async.test.ts
+FAILED TESTS:
+- Async Operations > should timeout on slow operation: thrown: "Exceeded timeout of 500 ms for a test.
+- Async Operations > should handle promise rejection: expect(received).rejects.toThrow(expected)
+
+---
+SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/string-utils.test.ts
+FAILED TESTS:
+- String Utils > capitalize > should capitalize first letter: expect(received).toBe(expected) // Object.is equality
+- String Utils > capitalize > should handle already capitalized: expect(received).toBe(expected) // Object.is equality
+
+---
+SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/calculator.test.ts
+FAILED TESTS:
+- Calculator > addition > should add two positive numbers: expect(received).toBe(expected) // Object.is equality
+- Calculator > addition > should handle negative numbers: expect(received).toBe(expected) // Object.is equality
+- Calculator > division > should throw on divide by zero: expect(received).toThrow(expected)
+
+---
+## SUMMARY
+- PASSED SUITES: 0
+- FAILED SUITES: 3
+- TOTAL TESTS: 13 (6 passed, 7 failed)
+- DURATION: 1.64s
+- EXIT CODE: 1

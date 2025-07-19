@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+*.pyc
+__pycache__/
+.pytest_cache/
+vendor/
+target/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+*.jar
+*.class
+*.so
+*.dylib
+*.dll
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Test outputs
+coverage/
+.coverage
+*.lcov
+test-results/
+*.log
+
+# Environment files
+.env
+.env.local
+venv/
+.venv/
+
+# Package files
+*.tgz
+*.tar.gz
+*.zip
+
+# Language specific
+# TypeScript
+*.tsbuildinfo
+.npm/
+
+# Python
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Go
+*.exe
+*.test
+*.out
+
+# Java
+*.war
+*.ear
+hs_err_pid*
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+*.tmp
+*.bak
+*.swp
+*.orig
+
+# OS files
+Thumbs.db
+Desktop.ini

@@ -21,8 +21,29 @@ setup_python_env() {
 
 # Parse command line arguments
 MODE="summary"
-if [[ "$1" == "--detailed" || "$1" == "-d" ]]; then
-    MODE="detailed"
+LANGUAGES=()
+
+# Process all arguments
+for arg in "$@"; do
+    case "$arg" in
+        --detailed|-d)
+            MODE="detailed"
+            ;;
+        typescript|python|go|java)
+            LANGUAGES+=("$arg")
+            ;;
+        *)
+            echo "Unknown argument: $arg"
+            echo "Usage: $0 [--detailed|-d] [typescript] [python] [go] [java]"
+            echo "  Run with no language arguments to test all languages"
+            exit 1
+            ;;
+    esac
+done
+
+# If no languages specified, run all
+if [ ${#LANGUAGES[@]} -eq 0 ]; then
+    LANGUAGES=("typescript" "python" "go" "java")
 fi
 
 # Test tracking arrays
@@ -233,138 +254,157 @@ run_reporter() {
 }
 
 
+# Function to check if a language should be run
+should_run_language() {
+    local lang=$1
+    for selected in "${LANGUAGES[@]}"; do
+        if [[ "$selected" == "$lang" ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
 # Run all TypeScript reporters
-CURRENT_SUITE="validation/typescript-reporters"
-declare -i suite_has_failures=0
+if should_run_language "typescript"; then
+    CURRENT_SUITE="validation/typescript-reporters"
+    declare -i suite_has_failures=0
 
-for framework in jest vitest mocha playwright cypress; do
-    reporter_path="$PROJECT_ROOT/typescript/${framework}-reporter"
-    if [ -d "$reporter_path" ]; then
-        # Test both summary and detailed modes
-        for test_mode in summary detailed; do
-            test_name="typescript > $framework > $test_mode mode"
-            
-            # Run reporter and measure time
-            if duration=$(run_reporter "typescript" "$framework" "$reporter_path" "$test_mode"); then
-                # Mark as passed for now - actual validation will happen with Python script
-                add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
-            else
-                add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
-                suite_has_failures=1
-            fi
-        done
-    else
-        test_name="typescript > $framework > summary mode"
-        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
-        test_name="typescript > $framework > detailed mode"
-        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
-        suite_has_failures=1
-    fi
-done
-
-# Track suite result
-if [ $suite_has_failures -eq 0 ]; then
-    PASSED_SUITES=$((PASSED_SUITES + 1))
-else
-    FAILED_SUITES=$((FAILED_SUITES + 1))
-    TEST_SUITES+=("$CURRENT_SUITE")
-fi
-
-# Run all Python reporters
-CURRENT_SUITE="validation/python-reporters"
-suite_has_failures=0
-
-for framework in pytest unittest; do
-    reporter_path="$PROJECT_ROOT/python/${framework}-reporter"
-    if [ -d "$reporter_path" ]; then
-        # Test both summary and detailed modes
-        for test_mode in summary detailed; do
-            test_name="python > $framework > $test_mode mode"
-            
-            if duration=$(run_reporter "python" "$framework" "$reporter_path" "$test_mode"); then
-                add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
-            else
-                add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
-                suite_has_failures=1
-            fi
-        done
-    else
-        test_name="python > $framework > summary mode"
-        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
-        test_name="python > $framework > detailed mode"
-        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
-        suite_has_failures=1
-    fi
-done
-
-if [ $suite_has_failures -eq 0 ]; then
-    PASSED_SUITES=$((PASSED_SUITES + 1))
-else
-    FAILED_SUITES=$((FAILED_SUITES + 1))
-    TEST_SUITES+=("$CURRENT_SUITE")
-fi
-
-# Run all Go reporters
-CURRENT_SUITE="validation/go-reporters"
-suite_has_failures=0
-
-for framework in testing; do
-    reporter_path="$PROJECT_ROOT/go/${framework}-reporter"
-    if [ -d "$reporter_path" ]; then
-        # Test both summary and detailed modes
-        for test_mode in summary detailed; do
-            test_name="go > $framework > $test_mode mode"
-            
-            if duration=$(run_reporter "go" "$framework" "$reporter_path" "$test_mode"); then
-                add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
-            else
-                add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
-                suite_has_failures=1
-            fi
-        done
-    else
-        test_name="go > $framework > summary mode"
-        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
-        test_name="go > $framework > detailed mode"
-        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
-        suite_has_failures=1
-    fi
-done
-
-if [ $suite_has_failures -eq 0 ]; then
-    PASSED_SUITES=$((PASSED_SUITES + 1))
-else
-    FAILED_SUITES=$((FAILED_SUITES + 1))
-    TEST_SUITES+=("$CURRENT_SUITE")
-fi
-
-# Run all Java reporters
-CURRENT_SUITE="validation/java-reporters"
-suite_has_failures=0
-
-for framework in junit testng; do
-    reporter_path="$PROJECT_ROOT/java/${framework}-reporter"
-    test_name="java > $framework > summary mode"
-    
-    if [ -d "$reporter_path" ]; then
-        if duration=$(run_reporter "java" "$framework" "$reporter_path" "summary"); then
-            add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+    for framework in jest vitest mocha playwright cypress; do
+        reporter_path="$PROJECT_ROOT/typescript/${framework}-reporter"
+        if [ -d "$reporter_path" ]; then
+            # Test both summary and detailed modes
+            for test_mode in summary detailed; do
+                test_name="typescript > $framework > $test_mode mode"
+                
+                # Run reporter and measure time
+                if duration=$(run_reporter "typescript" "$framework" "$reporter_path" "$test_mode"); then
+                    # Mark as passed for now - actual validation will happen with Python script
+                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+                else
+                    add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
+                    suite_has_failures=1
+                fi
+            done
         else
-            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
+            test_name="typescript > $framework > summary mode"
+            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
+            test_name="typescript > $framework > detailed mode"
+            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
             suite_has_failures=1
         fi
-    else
-        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
-        suite_has_failures=1
-    fi
-done
+    done
 
-if [ $suite_has_failures -eq 0 ]; then
-    PASSED_SUITES=$((PASSED_SUITES + 1))
-else
-    FAILED_SUITES=$((FAILED_SUITES + 1))
-    TEST_SUITES+=("$CURRENT_SUITE")
-fi
+    # Track suite result
+    if [ $suite_has_failures -eq 0 ]; then
+        PASSED_SUITES=$((PASSED_SUITES + 1))
+    else
+        FAILED_SUITES=$((FAILED_SUITES + 1))
+        TEST_SUITES+=("$CURRENT_SUITE")
+    fi
+fi # end of TypeScript section
+
+# Run all Python reporters
+if should_run_language "python"; then
+    CURRENT_SUITE="validation/python-reporters"
+    suite_has_failures=0
+
+    for framework in pytest unittest; do
+        reporter_path="$PROJECT_ROOT/python/${framework}-reporter"
+        if [ -d "$reporter_path" ]; then
+            # Test both summary and detailed modes
+            for test_mode in summary detailed; do
+                test_name="python > $framework > $test_mode mode"
+                
+                if duration=$(run_reporter "python" "$framework" "$reporter_path" "$test_mode"); then
+                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+                else
+                    add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
+                    suite_has_failures=1
+                fi
+            done
+        else
+            test_name="python > $framework > summary mode"
+            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
+            test_name="python > $framework > detailed mode"
+            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
+            suite_has_failures=1
+        fi
+    done
+
+    if [ $suite_has_failures -eq 0 ]; then
+        PASSED_SUITES=$((PASSED_SUITES + 1))
+    else
+        FAILED_SUITES=$((FAILED_SUITES + 1))
+        TEST_SUITES+=("$CURRENT_SUITE")
+    fi
+fi # end of Python section
+
+# Run all Go reporters
+if should_run_language "go"; then
+    CURRENT_SUITE="validation/go-reporters"
+    suite_has_failures=0
+
+    for framework in testing; do
+        reporter_path="$PROJECT_ROOT/go/${framework}-reporter"
+        if [ -d "$reporter_path" ]; then
+            # Test both summary and detailed modes
+            for test_mode in summary detailed; do
+                test_name="go > $framework > $test_mode mode"
+                
+                if duration=$(run_reporter "go" "$framework" "$reporter_path" "$test_mode"); then
+                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+                else
+                    add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
+                    suite_has_failures=1
+                fi
+            done
+        else
+            test_name="go > $framework > summary mode"
+            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
+            test_name="go > $framework > detailed mode"
+            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
+            suite_has_failures=1
+        fi
+    done
+
+    if [ $suite_has_failures -eq 0 ]; then
+        PASSED_SUITES=$((PASSED_SUITES + 1))
+    else
+        FAILED_SUITES=$((FAILED_SUITES + 1))
+        TEST_SUITES+=("$CURRENT_SUITE")
+    fi
+fi # end of Go section
+
+# Run all Java reporters
+if should_run_language "java"; then
+    CURRENT_SUITE="validation/java-reporters"
+    suite_has_failures=0
+
+        for framework in junit testng; do
+        reporter_path="$PROJECT_ROOT/java/${framework}-reporter"
+        test_name="java > $framework > summary mode"
+        
+        if [ -d "$reporter_path" ]; then
+            if duration=$(run_reporter "java" "$framework" "$reporter_path" "summary"); then
+                add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+            else
+                add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
+                suite_has_failures=1
+            fi
+        else
+            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
+            suite_has_failures=1
+        fi
+    done
+
+    if [ $suite_has_failures -eq 0 ]; then
+        PASSED_SUITES=$((PASSED_SUITES + 1))
+    else
+        FAILED_SUITES=$((FAILED_SUITES + 1))
+        TEST_SUITES+=("$CURRENT_SUITE")
+    fi
+fi # end of Java section
 
 # Calculate duration
 END_TIME=$(date +%s)

@@ -81,21 +81,15 @@
 - ✅ Task 4.4: Create Cypress test suite
 - ✅ Task 4.5: Add Cypress-specific error details
 
-## Feature 3: Multi-Language Support Preparation
+## Feature 3: CI/CD and Multi-Language Support
 
 ### Feature Specification
 
 - [Project Overview](./project.specs.md#phase-3-multi-language-preparation)
 
-### Phase 1: Language Adapter Framework (0/3 completed)
+### Phase 1: CI/CD Pipeline (1/4 completed)
 
-- Task 1.1: Design language-agnostic reporter interface
-- Task 1.2: Create adapter template generator
-- Task 1.3: Document language integration guidelines
-
-### Phase 2: CI/CD Pipeline (0/4 completed)
-
-- Task 2.1: Set up GitHub Actions for testing
-- Task 2.2: Add cross-framework validation tests
-- Task 2.3: Implement automated npm publishing
-- Task 2.4: Add performance regression tests
+- Task 1.1: Set up GitHub Actions for testing
+- ✅ Task 1.2: Add cross-framework validation tests (run-all.sh + compare-outputs.py)
+- Task 1.3: Implement automated npm publishing
+- Task 1.4: Add performance regression tests

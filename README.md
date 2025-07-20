@@ -1,6 +1,6 @@
 # LLM-Optimized Test Reporters
 
-A collection of test reporters for various testing frameworks, optimized for LLM context efficiency. Reduces output noise by 70%+ while ensuring zero missed test failures.
+A collection of test reporters for various testing frameworks, optimized for LLM context efficiency. These reporters aim to reduce output noise and help minimize missed test failures when analyzed by LLMs.
 
 ## 🎯 Why LLM-Optimized Reporters?
 
@@ -10,26 +10,24 @@ Traditional test reporters output verbose, colorful text designed for human deve
 - **Missed failures**: Important errors get buried in noise, causing LLMs to miss critical issues
 - **Poor actionability**: Stack traces and error messages aren't formatted for LLM comprehension
 
-Our reporters solve these problems with a clean, structured format that LLMs can efficiently parse and act upon.
+These reporters attempt to address these issues with a cleaner, more structured format that may be easier for LLMs to parse and analyze.
 
 ## ✨ Features
 
-- **70%+ output reduction** compared to default reporters
-- **Zero missed failures** - all test failures prominently displayed
+- **Reduced output** compared to default reporters by focusing on failures
+- **Improved failure visibility** - test failures are prominently displayed
 - **Two modes**: Summary (minimal) and Detailed (with code context)
-- **Pattern detection** across multiple failures
 - **Clean format** without ANSI codes or terminal formatting
-- **Streaming support** for real-time output
-- **<100ms overhead** for test suites with 1000+ tests
+
 
 ## 📦 Available Reporters
 
 ### TypeScript/JavaScript
 - ✅ **Jest** - Full support with all features
-- 🚧 Vitest - Coming soon
-- 🚧 Mocha - Coming soon
-- 🚧 Playwright - Coming soon
-- 🚧 Cypress - Coming soon
+- ✅ **Vitest** - Full support with TypeScript
+- ✅ **Mocha** - Full support with async patterns
+- ✅ **Playwright** - Full support for E2E testing
+- ✅ **Cypress** - Full support with multi-spec aggregation
 
 ### Other Languages (Planned)
 - 📅 Python (pytest, unittest, behave)
@@ -39,27 +37,32 @@ Our reporters solve these problems with a clean, structured format that LLMs can
 
 ## 🚀 Quick Start
 
-### Jest
+Choose your testing framework and install the corresponding reporter:
 
 ```bash
+# For Jest
 npm install --save-dev @llm-reporters/jest-reporter
+
+# For Vitest
+npm install --save-dev @llm-reporters/vitest-reporter
+
+# For Mocha
+npm install --save-dev @llm-reporters/mocha-reporter
+
+# For Playwright
+npm install --save-dev @llm-reporters/playwright-reporter
+
+# For Cypress
+npm install --save-dev @llm-test-reporter/cypress
 ```
 
-```javascript
-// jest.config.js
-module.exports = {
-  reporters: [
-    ['@llm-reporters/jest-reporter', {
-      mode: 'summary' // or 'detailed'
-    }]
-  ]
-};
-```
+Then configure your test framework to use the reporter. See the detailed guides for each framework:
 
-Run your tests:
-```bash
-npm test
-```
+- **[Jest Configuration Guide](examples/jest-example.md)**
+- **[Vitest Configuration Guide](examples/vitest-example.md)**
+- **[Mocha Configuration Guide](examples/mocha-example.md)**
+- **[Playwright Configuration Guide](examples/playwright-example.md)**
+- **[Cypress Configuration Guide](examples/cypress-example.md)**
 
 ## 📋 Output Examples
 
@@ -110,13 +113,6 @@ FAILURE REASON: add(-1, 1) returned -2 instead of expected 0
 FIX HINT: Check the add function implementation for correct operation
 
 ---
-## ERROR PATTERNS DETECTED
-- 2 tests failed due to incorrect arithmetic operations
-
-## SUGGESTED FOCUS AREAS
-1. Review arithmetic operations for edge cases
-2. Add input validation for numeric operations
-
 ---
 ## SUMMARY
 - TOTAL TESTS: 45 (43 passed, 2 failed)
@@ -138,7 +134,6 @@ Create `.llm-reporter.json`:
 ```json
 {
   "mode": "summary",
-  "detectPatterns": true,
   "maxValueLength": 200,
   "outputFile": null
 }
@@ -148,7 +143,6 @@ Create `.llm-reporter.json`:
 ```javascript
 {
   mode: 'summary' | 'detailed',    // Output verbosity
-  detectPatterns: boolean,          // Pattern detection in detailed mode
   maxValueLength: number,           // Max length for expected/received values
   stackTraceLines: number,          // Number of stack trace lines (0 = none)
   outputFile: string | null         // Write to file instead of stdout
@@ -161,7 +155,9 @@ See the [examples directory](examples/) for complete working examples:
 
 - **[jest-example.md](examples/jest-example.md)** - Complete Jest reporter guide with code and configuration
 - **[vitest-example.md](examples/vitest-example.md)** - Complete Vitest reporter guide with TypeScript examples
-- More examples coming soon for Mocha, Playwright, and Cypress
+- **[mocha-example.md](examples/mocha-example.md)** - Mocha reporter guide with async patterns
+- **[playwright-example.md](examples/playwright-example.md)** - Playwright E2E testing guide
+- **[cypress-example.md](examples/cypress-example.md)** - Cypress testing guide with aggregation
 
 ## 🔧 Advanced Usage
 
@@ -247,14 +243,14 @@ npm run test:example
 
 ## 📊 Performance
 
-Our reporters add minimal overhead:
+The reporters are designed to add minimal overhead:
 
 | Reporter | Mode | Overhead | Output Reduction |
 |----------|------|----------|------------------|
-| Jest | Summary | <50ms | 75% |
-| Jest | Detailed | <80ms | 60% |
+| Jest | Summary | <50ms | ~70%+ |
+| Jest | Detailed | <80ms | ~60%+ |
 
-Benchmarked on 1000-test suite, M1 MacBook Pro.
+*Estimates based on initial testing with 1000-test suite.*
 
 ## 🤝 Contributing
 

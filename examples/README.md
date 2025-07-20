@@ -8,12 +8,9 @@ This directory contains comprehensive examples for each supported testing framew
 
 - **[jest-example.md](./jest-example.md)** - Complete Jest reporter example with configuration, test files, and output samples
 - **[vitest-example.md](./vitest-example.md)** - Complete Vitest reporter example with TypeScript support and Vitest-specific features
-
-### Coming Soon
-
-- **mocha-example.md** - Mocha reporter with async testing patterns
-- **playwright-example.md** - E2E testing with browser contexts and screenshots
-- **cypress-example.md** - Component and E2E testing with command logs
+- **[mocha-example.md](./mocha-example.md)** - Mocha reporter with async testing patterns and multiple configuration methods
+- **[playwright-example.md](./playwright-example.md)** - E2E testing with browser contexts, screenshots, and multi-browser support
+- **[cypress-example.md](./cypress-example.md)** - Component and E2E testing with automatic multi-spec aggregation
 
 ## Example Structure
 

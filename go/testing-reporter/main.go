@@ -62,8 +62,14 @@ func main() {
 		writer = file
 	}
 
-	// Create parser
-	parser := shared.NewParser(config, writer)
+	// Get working directory for full paths
+	workingDir, err := os.Getwd()
+	if err != nil {
+		workingDir = "."
+	}
+	
+	// Create parser with working directory
+	parser := shared.NewParserWithDir(config, writer, workingDir)
 	
 	// Check if we're reading from stdin (piped input)
 	stat, _ := os.Stdin.Stat()

@@ -97,10 +97,10 @@ func (f *Formatter) formatDetailedFailure(suite *TestSuite, test TestResult, num
 	fmt.Fprintf(f.writer, "TEST: %s\n", test.FullName)
 	
 	if test.LineNumber > 0 {
-		fmt.Fprintf(f.writer, "FILE: %s:%d\n", suite.FilePath, test.LineNumber)
+		fmt.Fprintf(f.writer, "FILE: %s:%d\n", test.FilePath, test.LineNumber)
 	} else {
 		// For Go tests, default to line 1 to satisfy format validation
-		fmt.Fprintf(f.writer, "FILE: %s:1\n", suite.FilePath)
+		fmt.Fprintf(f.writer, "FILE: %s:1\n", test.FilePath)
 	}
 	
 	if test.Error != nil {

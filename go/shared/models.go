@@ -30,6 +30,7 @@ type TestResult struct {
 	FullName   string        `json:"full_name"`
 	Status     TestStatus    `json:"status"`
 	Duration   time.Duration `json:"duration"`
+	FilePath   string        `json:"file_path,omitempty"`
 	LineNumber int           `json:"line_number,omitempty"`
 	Error      *ErrorInfo    `json:"error,omitempty"`
 }

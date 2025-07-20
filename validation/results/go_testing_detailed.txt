@@ -1,0 +1,173 @@
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestFailingEquality
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:17
+TYPE: Assertion Error
+
+FAILURE REASON: values not equal: 4 != 5
+FIX HINT: Check test assertions and expectations
+
+---
+## TEST FAILURE #2
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestFailingSliceComparison
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:39
+TYPE: Assertion Error
+
+FAILURE REASON: slices differ at index 2: 3 != 4
+FIX HINT: Check test assertions and expectations
+
+---
+## TEST FAILURE #3
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestTableDrivenMixed > add_zero
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:62
+TYPE: Error
+
+FAILURE REASON: add zero: 0 + 5 = 5, want 10
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #4
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestTableDrivenMixed > add_overflow
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:62
+TYPE: Error
+
+FAILURE REASON: add overflow: 2147483647 + 1 = 2147483648, want 0
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #5
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestTableDrivenMixed
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:1
+TYPE: Error
+
+FAILURE REASON: Test failed
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #6
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestErrorMessage
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:80
+TYPE: Error
+
+FAILURE REASON: expected error for empty input
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #1
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestAssertionFailure
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:13
+TYPE: Assertion Error
+
+FAILURE REASON: Expected 10 but got 5
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestNilPointerError
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:21
+TYPE: Nil Pointer
+
+FAILURE REASON: nil pointer dereference
+FIX HINT: Check for nil values before dereferencing
+
+---
+## TEST FAILURE #3
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestIndexOutOfBounds
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:29
+TYPE: Index Error
+
+FAILURE REASON: index out of range: 10 >= 3
+FIX HINT: Verify array/slice bounds before accessing
+
+---
+## TEST FAILURE #4
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestTypeError
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:36
+TYPE: Type Error
+
+FAILURE REASON: type mismatch: cannot convert string to int
+FIX HINT: Ensure type compatibility in operations
+
+---
+## TEST FAILURE #5
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestTimeout
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:51
+TYPE: Timeout
+
+FAILURE REASON: test timed out after 100ms
+FIX HINT: Increase timeout duration or optimize the operation
+
+---
+## TEST FAILURE #6
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestSubtests > double_zero
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:70
+TYPE: Error
+
+FAILURE REASON: For double zero: want 1, got 0
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #7
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestSubtests
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:1
+TYPE: Error
+
+FAILURE REASON: Test failed
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #8
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestPanic
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:79
+TYPE: Index Error
+
+FAILURE REASON: panic: runtime error: index out of range [0] with length 0
+FIX HINT: Verify array/slice bounds before accessing
+
+---
+## TEST FAILURE #9
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestErrorWrapping
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:95
+TYPE: Error
+
+FAILURE REASON: operation failed: wrapped: base error
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #10
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+TEST: TestMultilineError
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:100
+TYPE: Error
+
+FAILURE REASON: Complex error:
+FIX HINT: Review error message and stack trace for details
+
+---
+## ERROR PATTERNS DETECTED
+- 16 tests failed
+
+---
+---
+## SUMMARY
+- PASSED SUITES: 0
+- FAILED SUITES: 1
+- TOTAL TESTS: 26 (10 passed, 16 failed)
+- DURATION: 0.38s
+- EXIT CODE: 1

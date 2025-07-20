@@ -1,0 +1,31 @@
+# LLM TEST REPORTER - SUMMARY MODE
+
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+FAILED TESTS:
+- TestFailingEquality: values not equal: 4 != 5
+- TestFailingSliceComparison: slices differ at index 2: 3 != 4
+- TestTableDrivenMixed > add_zero: add zero: 0 + 5 = 5, want 10
+- TestTableDrivenMixed > add_overflow: add overflow: 2147483647 + 1 = 2147483648, want 0
+- TestTableDrivenMixed: Test failed
+- TestErrorMessage: expected error for empty input
+
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
+FAILED TESTS:
+- TestAssertionFailure: Expected 10 but got 5
+- TestNilPointerError: nil pointer dereference
+- TestIndexOutOfBounds: index out of range: 10 >= 3
+- TestTypeError: type mismatch: cannot convert string to int
+- TestTimeout: test timed out after 100ms
+- TestSubtests > double_zero: For double zero: want 1, got 0
+- TestSubtests: Test failed
+- TestPanic: panic: runtime error: index out of range [0] with length 0
+- TestErrorWrapping: operation failed: wrapped: base error
+- TestMultilineError: Complex error:
+
+---
+## SUMMARY
+- PASSED SUITES: 0
+- FAILED SUITES: 1
+- TOTAL TESTS: 26 (10 passed, 16 failed)
+- DURATION: 0.38s
+- EXIT CODE: 1

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -17,6 +18,8 @@ type Parser struct {
 	suites      map[string]*TestSuite
 	testOutputs map[string][]string
 	testStart   map[string]time.Time
+	workingDir  string
+	testFiles   map[string]string // maps test name to file path
 }
 
 // NewParser creates a new parser instance
@@ -28,6 +31,22 @@ func NewParser(config *ReporterConfig, writer io.Writer) *Parser {
 		suites:      make(map[string]*TestSuite),
 		testOutputs: make(map[string][]string),
 		testStart:   make(map[string]time.Time),
+		workingDir:  ".",
+		testFiles:   make(map[string]string),
+	}
+}
+
+// NewParserWithDir creates a new parser instance with a specific working directory
+func NewParserWithDir(config *ReporterConfig, writer io.Writer, workingDir string) *Parser {
+	return &Parser{
+		config:      config,
+		formatter:   NewFormatter(config, writer),
+		classifier:  NewErrorClassifier(),
+		suites:      make(map[string]*TestSuite),
+		testOutputs: make(map[string][]string),
+		testStart:   make(map[string]time.Time),
+		workingDir:  workingDir,
+		testFiles:   make(map[string]string),
 	}
 }
 
@@ -74,6 +93,10 @@ func (p *Parser) processEvent(event *TestEvent) error {
 	case "output":
 		if event.Test != "" {
 			p.testOutputs[event.Test] = append(p.testOutputs[event.Test], event.Output)
+			// Try to extract file information from output
+			if strings.Contains(event.Output, ".go:") {
+				p.extractFileFromOutput(event.Test, event.Output)
+			}
 		}
 		
 	case "pass", "fail", "skip":
@@ -85,9 +108,41 @@ func (p *Parser) processEvent(event *TestEvent) error {
 	return nil
 }
 
+// extractFileFromOutput tries to extract file information from test output
+func (p *Parser) extractFileFromOutput(testName, output string) {
+	// Look for file:line: pattern
+	output = strings.TrimSpace(output)
+	if idx := strings.Index(output, ".go:"); idx > 0 {
+		// Find the start of the filename
+		start := 0
+		for i := idx - 1; i >= 0; i-- {
+			if output[i] == ' ' || output[i] == '\t' {
+				start = i + 1
+				break
+			}
+		}
+		
+		// Extract filename
+		fileName := output[start:idx+3] // include .go
+		if fileName != "" && !strings.Contains(fileName, "/") {
+			// Store the file mapping
+			p.testFiles[testName] = fileName
+			
+			// If this is a subtest, also store for the parent test
+			if idx := strings.LastIndex(testName, "/"); idx != -1 {
+				parentTest := testName[:idx]
+				// Only set parent file if not already set
+				if _, exists := p.testFiles[parentTest]; !exists {
+					p.testFiles[parentTest] = fileName
+				}
+			}
+		}
+	}
+}
+
 func (p *Parser) addTestResult(event *TestEvent) {
 	// Parse test name to get suite and test
-	suiteName := event.Package
+	packageName := event.Package
 	testName := event.Test
 	fullName := testName
 	
@@ -96,17 +151,6 @@ func (p *Parser) addTestResult(event *TestEvent) {
 		parentTest := testName[:idx]
 		testName = testName[idx+1:]
 		fullName = parentTest + " > " + testName
-	}
-	
-	// Get or create suite
-	suite, exists := p.suites[suiteName]
-	if !exists {
-		suite = &TestSuite{
-			Name:     suiteName,
-			FilePath: suiteName, // Go doesn't provide file path in JSON
-			Tests:    []TestResult{},
-		}
-		p.suites[suiteName] = suite
 	}
 	
 	// Determine status
@@ -137,22 +181,68 @@ func (p *Parser) addTestResult(event *TestEvent) {
 		Duration: duration,
 	}
 	
-	// Extract error information for failed tests
+	// Extract error information and determine file
+	var fileName string
+	
 	if status == StatusFailed {
-		result.Error = p.extractErrorInfo(event.Test)
+		errorInfo, fn, ln := p.extractErrorInfo(event.Test)
+		result.Error = errorInfo
+		if ln > 0 {
+			result.LineNumber = ln
+		}
+		if fn != "" {
+			fileName = fn
+		}
+	}
+	
+	// Check if we have file information from output parsing
+	if fileName == "" {
+		if fn, ok := p.testFiles[event.Test]; ok {
+			fileName = fn
+		}
+	}
+	
+	// Determine suite based on file
+	var suiteName string
+	var suitePath string
+	
+	if fileName != "" {
+		// Construct full path
+		fullPath := filepath.Join(p.workingDir, fileName)
+		result.FilePath = fullPath
+		// Use file path as suite
+		suitePath = fullPath
+		suiteName = suitePath
+	} else {
+		// Fall back to directory-based suite
+		suitePath = filepath.Join(p.workingDir, "tests")
+		suiteName = suitePath
+		result.FilePath = packageName
+	}
+	
+	// Get or create suite
+	suite, exists := p.suites[suiteName]
+	if !exists {
+		suite = &TestSuite{
+			Name:     suiteName,
+			FilePath: suitePath,
+			Tests:    []TestResult{},
+		}
+		p.suites[suiteName] = suite
 	}
 	
 	suite.Tests = append(suite.Tests, result)
 }
 
-func (p *Parser) extractErrorInfo(testName string) *ErrorInfo {
+func (p *Parser) extractErrorInfo(testName string) (*ErrorInfo, string, int) {
 	outputs := p.testOutputs[testName]
 	if len(outputs) == 0 {
-		return nil
+		return nil, "", 0
 	}
 	
-	// Find error message and location
+	// Find error message, file name, and line number
 	var errorMsg string
+	var fileName string
 	var lineNum int
 	
 	for _, output := range outputs {
@@ -161,29 +251,28 @@ func (p *Parser) extractErrorInfo(testName string) *ErrorInfo {
 			continue
 		}
 		
-		// Look for file:line: pattern
-		if strings.Contains(output, ".go:") {
-			parts := strings.SplitN(output, ":", 3)
-			if len(parts) >= 3 {
-				// Extract message after file:line:
-				errorMsg = strings.TrimSpace(parts[2])
-				// Parse line number
-				if n := strings.LastIndex(parts[1], ":"); n > 0 {
-					// Handle case where line might be "file.go:123"
-					lineStr := parts[1]
-					if idx := strings.LastIndex(lineStr, ".go"); idx > 0 {
-						lineStr = lineStr[idx+3:]
-						if lineStr != "" && lineStr[0] == ':' {
-							lineStr = lineStr[1:]
-						}
-					}
-					// Try to parse line number
-					var line int
-					fmt.Sscanf(lineStr, "%d", &line)
-					if line > 0 {
-						lineNum = line
-					}
+		// Look for file:line: pattern (e.g., "    all_failing_test.go:13: Expected 10 but got 5")
+		output = strings.TrimSpace(output)
+		if idx := strings.Index(output, ".go:"); idx > 0 {
+			// Find the start of the filename (after any whitespace)
+			start := 0
+			for i := idx - 1; i >= 0; i-- {
+				if output[i] == ' ' || output[i] == '\t' {
+					start = i + 1
+					break
 				}
+			}
+			
+			// Extract filename
+			fileName = output[start:idx+3] // include .go
+			
+			// Extract line number and message
+			remaining := output[idx+4:] // skip ".go:"
+			if colonIdx := strings.Index(remaining, ":"); colonIdx > 0 {
+				// Parse line number
+				fmt.Sscanf(remaining[:colonIdx], "%d", &lineNum)
+				// Extract message
+				errorMsg = strings.TrimSpace(remaining[colonIdx+1:])
 			}
 		} else if strings.TrimSpace(output) != "" && errorMsg == "" {
 			// Use first non-empty line as error message
@@ -220,5 +309,5 @@ func (p *Parser) extractErrorInfo(testName string) *ErrorInfo {
 		// Line number will be stored with the test result
 	}
 	
-	return errorInfo
+	return errorInfo, fileName, lineNum
 }

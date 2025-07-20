@@ -224,7 +224,7 @@ run_reporter() {
                 # Build the reporter
                 if go build -o llm-go-test . > /dev/null 2>&1; then
                     # Run tests and capture output
-                    ./llm-go-test -mode $mode -output "$output_file" ./tests || true
+                    ./llm-go-test -mode $mode -output "$output_file" ./tests > /dev/null 2>&1 || true
                     
                     # Check if output was generated
                     if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
@@ -410,20 +410,22 @@ fi # end of Java section
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))
 
-# Run Python validation on all output files
-echo ""
-echo "Running format validation..."
-
-# Ensure Python environment is set up for validation
-setup_python_env
-
-# Run validation with virtual environment Python
-if "$PYTHON_VENV/bin/python" -u "$SCRIPT_DIR/compare-outputs.py" "$RESULTS_DIR"; then
-    echo "Format validation passed"
-else
-    echo "Format validation found issues - see report above"
+# Run Python validation on all output files (only if running all languages)
+if [ ${#LANGUAGES[@]} -eq 4 ]; then
+    echo ""
+    echo "Running format validation..."
+    
+    # Ensure Python environment is set up for validation
+    setup_python_env
+    
+    # Run validation with virtual environment Python
+    if "$PYTHON_VENV/bin/python" -u "$SCRIPT_DIR/compare-outputs.py" "$RESULTS_DIR"; then
+        echo "Format validation passed"
+    else
+        echo "Format validation found issues - see report above"
+    fi
+    echo ""
 fi
-echo ""
 
 # Output in LLM reporter format
 if [[ "$MODE" == "summary" ]]; then

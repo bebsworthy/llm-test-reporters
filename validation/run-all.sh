@@ -9,6 +9,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 VALIDATION_SUITE="$PROJECT_ROOT/shared/validation-suite"
 RESULTS_DIR="$SCRIPT_DIR/results"
+PYTHON_VENV="$PROJECT_ROOT/python/.venv"
+
+# Setup Python environment if needed
+setup_python_env() {
+    if [ ! -d "$PYTHON_VENV" ]; then
+        echo "Python virtual environment not found. Setting up..."
+        (cd "$PROJECT_ROOT/python" && ./setup_venv.sh) > /dev/null 2>&1
+    fi
+}
 
 # Parse command line arguments
 MODE="summary"
@@ -143,14 +152,17 @@ run_reporter() {
             ;;
         "pytest")
             if cd "$reporter_path" 2>/dev/null; then
-                # Set up Python path to include shared utilities
-                export PYTHONPATH="$PROJECT_ROOT/python:$PYTHONPATH"
+                # Ensure Python environment is set up
+                setup_python_env
                 
-                # Install the reporter in development mode if not already installed
-                pip install -e . > /dev/null 2>&1 || true
-                
-                # Run pytest with the LLM reporter
-                LLM_OUTPUT_MODE=$mode pytest --llm-reporter > "$output_file" 2>&1 || true
+                # Activate virtual environment and run tests
+                (
+                    source "$PYTHON_VENV/bin/activate"
+                    export PYTHONPATH="$PROJECT_ROOT/python:$PYTHONPATH"
+                    
+                    # Run pytest with the LLM reporter (quiet mode to suppress default output)
+                    LLM_OUTPUT_MODE=$mode pytest --llm-reporter -q tests/ > "$output_file" 2>&1 || true
+                )
                 
                 # Check if output was generated
                 if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
@@ -164,14 +176,17 @@ run_reporter() {
             ;;
         "unittest")
             if cd "$reporter_path" 2>/dev/null; then
-                # Set up Python path to include shared utilities
-                export PYTHONPATH="$PROJECT_ROOT/python:$PYTHONPATH"
+                # Ensure Python environment is set up
+                setup_python_env
                 
-                # Install the reporter in development mode if not already installed
-                pip install -e . > /dev/null 2>&1 || true
-                
-                # Run unittest with the LLM reporter
-                LLM_OUTPUT_MODE=$mode python -m llm_unittest_reporter > "$output_file" 2>&1 || true
+                # Activate virtual environment and run tests
+                (
+                    source "$PYTHON_VENV/bin/activate"
+                    export PYTHONPATH="$PROJECT_ROOT/python:$PYTHONPATH"
+                    
+                    # Run unittest with the LLM reporter
+                    LLM_OUTPUT_MODE=$mode python -m llm_unittest_reporter > "$output_file" 2>&1 || true
+                )
                 
                 # Check if output was generated
                 if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
@@ -334,7 +349,12 @@ DURATION=$((END_TIME - START_TIME))
 # Run Python validation on all output files
 echo ""
 echo "Running format validation..."
-if python3 "$SCRIPT_DIR/compare-outputs.py" "$RESULTS_DIR"; then
+
+# Ensure Python environment is set up for validation
+setup_python_env
+
+# Run validation with virtual environment Python
+if "$PYTHON_VENV/bin/python" "$SCRIPT_DIR/compare-outputs.py" "$RESULTS_DIR"; then
     echo "Format validation passed"
 else
     echo "Format validation found issues - see report above"

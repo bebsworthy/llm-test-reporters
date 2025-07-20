@@ -12,13 +12,11 @@ from _pytest.terminal import TerminalReporter
 from _pytest.reports import TestReport
 from _pytest._code import ExceptionInfo
 
-# Add parent directories to path to import shared utilities
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent.parent / "shared"))
-
-from config import ReporterConfig
-from models import TestSuite, TestResult, TestStatus, ErrorInfo
-from formatters import StreamingFormatter
-from error_classifier import ErrorClassifier
+# Import from local copies of shared modules
+from .config import ReporterConfig
+from .models import TestSuite, TestResult, TestStatus, ErrorInfo
+from .formatters import StreamingFormatter
+from .error_classifier import ErrorClassifier
 
 
 class LLMReporter:
@@ -45,6 +43,10 @@ class LLMReporter:
     
     def pytest_runtest_protocol(self, item, nextitem):
         """Called for each test item."""
+        # Only process if reporter is active
+        if not hasattr(self.config.option, 'llm_reporter_active') or not self.config.option.llm_reporter_active:
+            return
+            
         # Get file path
         file_path = str(item.fspath)
         
@@ -60,6 +62,10 @@ class LLMReporter:
     
     def pytest_runtest_logreport(self, report: TestReport):
         """Process test report."""
+        # Only process if reporter is active
+        if not hasattr(self.config.option, 'llm_reporter_active') or not self.config.option.llm_reporter_active:
+            return
+            
         if not self._started:
             self.formatter.start()
             self._started = True
@@ -170,6 +176,10 @@ class LLMReporter:
     
     def pytest_sessionfinish(self, session, exitstatus):
         """Called after whole test run finishes."""
+        # Only process if reporter is active
+        if not hasattr(self.config.option, 'llm_reporter_active') or not self.config.option.llm_reporter_active:
+            return
+            
         # Format each completed suite
         for suite in self.suites.values():
             self.formatter.add_suite(suite)
@@ -179,10 +189,20 @@ class LLMReporter:
     
     def pytest_terminal_summary(self, terminalreporter, exitstatus, config):
         """Suppress default terminal summary when using LLM reporter."""
+        # Only process if reporter is active
+        if not hasattr(self.config.option, 'llm_reporter_active') or not self.config.option.llm_reporter_active:
+            return
+            
         # Clear terminal reporter stats to suppress default output
-        if self.reporter_config.output_file:
-            # When writing to file, we can suppress terminal output
-            terminalreporter.stats.clear()
+        terminalreporter._session = None
+        terminalreporter.stats.clear()
+        terminalreporter._durations.clear()
+        
+        # Don't show the summary
+        terminalreporter.summary_errors = lambda: None
+        terminalreporter.summary_failures = lambda: None
+        terminalreporter.summary_warnings = lambda: None
+        terminalreporter.short_test_summary = lambda: None
 
 
 def pytest_addoption(parser):
@@ -206,21 +226,35 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     """Configure plugin."""
-    if config.getoption("--llm-reporter") or os.environ.get("LLM_REPORTER_MODE") or os.environ.get("LLM_OUTPUT_MODE"):
+    # Check if we should activate the reporter
+    should_activate = (
+        config.getoption("--llm-reporter", False) or 
+        os.environ.get("LLM_REPORTER_MODE") or 
+        os.environ.get("LLM_OUTPUT_MODE")
+    )
+    
+    if should_activate:
         # Build options from command line
         options = {}
-        if config.getoption("--llm-reporter-mode"):
-            options["mode"] = config.getoption("--llm-reporter-mode")
-        if config.getoption("--llm-reporter-output"):
-            options["output_file"] = config.getoption("--llm-reporter-output")
+        if hasattr(config.option, "llm_reporter_mode") and config.option.llm_reporter_mode:
+            options["mode"] = config.option.llm_reporter_mode
+        if hasattr(config.option, "llm_reporter_output") and config.option.llm_reporter_output:
+            options["output_file"] = config.option.llm_reporter_output
         
         config.option.llm_reporter_options = options
+        config.option.llm_reporter_active = True
         
         # Register our reporter
-        reporter = LLMReporter(config, config.pluginmanager.get_plugin("terminalreporter"))
-        config.pluginmanager.register(reporter, "llm_reporter")
+        terminal_reporter = config.pluginmanager.get_plugin("terminalreporter")
+        reporter = LLMReporter(config, terminal_reporter)
+        
+        # Register hooks
+        config.pluginmanager.register(reporter, "llm_reporter_instance")
         
         # Disable default terminal reporter output when using file output
         if reporter.reporter_config.output_file:
             config.option.verbose = -1
             config.option.quiet = True
+            if terminal_reporter:
+                terminal_reporter.showheader = False
+                terminal_reporter.showfspath = False

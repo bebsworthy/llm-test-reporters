@@ -1,5 +1,6 @@
 """LLM-optimized unittest TestResult and TestRunner."""
 
+import os
 import sys
 import time
 import unittest
@@ -8,13 +9,11 @@ from pathlib import Path
 from typing import List, Optional, Tuple, Dict, Any, TextIO
 from datetime import datetime
 
-# Add parent directories to path to import shared utilities
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent.parent / "shared"))
-
-from config import ReporterConfig
-from models import TestSuite, TestResult, TestStatus, ErrorInfo
-from formatters import StreamingFormatter
-from error_classifier import ErrorClassifier
+# Import from local copies of shared modules
+from .config import ReporterConfig
+from .models import TestSuite, TestResult, TestStatus, ErrorInfo
+from .formatters import StreamingFormatter
+from .error_classifier import ErrorClassifier
 
 
 class LLMTestResult(unittest.TestResult):

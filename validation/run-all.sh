@@ -218,10 +218,6 @@ run_reporter() {
                 return 1
             fi
             ;;
-        "testify")
-            # Not implemented yet
-            return 1
-            ;;
         "junit"|"testng")
             # Not implemented yet
             return 1
@@ -312,7 +308,7 @@ fi
 CURRENT_SUITE="validation/go-reporters"
 suite_has_failures=0
 
-for framework in testing testify; do
+for framework in testing; do
     reporter_path="$PROJECT_ROOT/go/${framework}-reporter"
     if [ -d "$reporter_path" ]; then
         # Test both summary and detailed modes

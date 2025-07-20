@@ -76,15 +76,17 @@
       - README.md
 -  /go
    -  /testing-reporter
-      -  reporter.go
-      -  reporter_test.go
+      -  main.go            # Test wrapper command
       -  go.mod
+      -  go.sum
       - README.md
-   - /testify-reporter
-      -  reporter.go
-      -  reporter_test.go
+      -  tests/             # Validation test suite
+   -  /shared              # Shared Go utilities
+      -  models.go
+      -  parser.go
+      -  formatter.go
+      -  classifier.go
       -  go.mod
-      - README.md
 -  /java
    -  /junit-reporter
       -  src/
@@ -170,8 +172,7 @@
 - unittest reporter
 
 ### Phase 5: Go Ecosystem
-- Go test reporter
-- Testify reporter
+- Go test reporter (works with standard testing package and testify)
 
 ### Phase 6: Java Ecosystem
 - JUnit reporter

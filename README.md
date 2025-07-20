@@ -29,9 +29,14 @@ These reporters attempt to address these issues with a cleaner, more structured 
 - ✅ **Playwright** - Full support for E2E testing
 - ✅ **Cypress** - Full support with multi-spec aggregation
 
+### Python
+- ✅ **pytest** - Full support with plugin system
+- ✅ **unittest** - Full support with TestResult implementation
+
+### Go
+- ✅ **go test** - Full support (works with standard testing package and testify)
+
 ### Other Languages (Planned)
-- 📅 Python (pytest, unittest)
-- 📅 Go (testing, testify)
 - 📅 Java (JUnit, TestNG)
 - 📅 Ruby, PHP, C#, Rust
 

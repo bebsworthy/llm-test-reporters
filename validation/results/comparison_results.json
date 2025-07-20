@@ -27,7 +27,7 @@
         "test_failure_#4": "## TEST FAILURE #4",
         "test_failure_#5": "## TEST FAILURE #5",
         "error_patterns_detected": "## ERROR PATTERNS DETECTED\n- 5 tests failed due to Multiple failures in tests module\n- 2 tests failed due to Multiple assertion failures\n- 2 tests failed due to Multiple type-related errors\n\n---",
-        "summary": "## SUMMARY\n- TOTAL TESTS: 7 (2 passed, 5 failed)\n- FAILURE RATE: 71.43%\n- DURATION: 0.84s\n- EXIT CODE: 1"
+        "summary": "## SUMMARY\n- TOTAL TESTS: 7 (2 passed, 5 failed)\n- FAILURE RATE: 71.43%\n- DURATION: 0.69s\n- EXIT CODE: 1"
       }
     },
     "typescript_playwright_summary.txt": {
@@ -57,7 +57,7 @@
         "test_failure_#4": "## TEST FAILURE #4",
         "test_failure_#5": "## TEST FAILURE #5",
         "error_patterns_detected": "## ERROR PATTERNS DETECTED\n- 5 tests failed due to Multiple failures in tests module\n- 3 tests failed due to Multiple assertion failures\n- 2 tests failed due to Multiple type-related errors\n\n---",
-        "summary": "## SUMMARY\n- TOTAL TESTS: 11 (2 passed, 5 failed)\n- FAILURE RATE: 45.45%\n- DURATION: 1.84s\n- EXIT CODE: 1"
+        "summary": "## SUMMARY\n- TOTAL TESTS: 11 (2 passed, 5 failed)\n- FAILURE RATE: 45.45%\n- DURATION: 1.73s\n- EXIT CODE: 1"
       }
     },
     "typescript_vitest_summary.txt": {
@@ -69,7 +69,7 @@
       "sections": {
         "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
         "suites": "SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/all-failing.test.ts\nFAILED TESTS:\n- Test 1 - Should fail: expected 'actual' to be 'expected' // Object.is equality\n- Test 2 - Should fail: Cannot read properties of null (reading 'length')\n- Test 3 - Should fail: Test timed out in 500ms.\n\n---\nSUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/mixed-results.test.ts\nFAILED TESTS:\n- Test 2 - Should fail: expected 4 to be 5 // Object.is equality\n- Test 4 - Should fail: Cannot read properties of undefined (reading 'property')\n\n---",
-        "summary": "## SUMMARY\n- PASSED SUITES: 0\n- FAILED SUITES: 2\n- TOTAL TESTS: 7 (2 passed, 5 failed)\n- DURATION: 0.71s\n- EXIT CODE: 1"
+        "summary": "## SUMMARY\n- PASSED SUITES: 0\n- FAILED SUITES: 2\n- TOTAL TESTS: 7 (2 passed, 5 failed)\n- DURATION: 0.74s\n- EXIT CODE: 1"
       }
     },
     "typescript_mocha_detailed.txt": {
@@ -105,7 +105,7 @@
       "sections": {
         "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
         "suites": "SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/all-failing.test.ts\nFAILED TESTS:\n- All Failing Tests > Test 1 - Should fail: expect(received).toBe(expected) // Object.is equality\n- All Failing Tests > Test 2 - Should fail: Cannot read properties of null (reading 'length')\n- All Failing Tests > Test 3 - Should fail: thrown: \"Exceeded timeout of 500 ms for a test.\n\n---\nSUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/mixed-results.test.ts\nFAILED TESTS:\n- Mixed Results > Test 2 - Should fail: expect(received).toBe(expected) // Object.is equality\n- Mixed Results > Test 4 - Should fail: Cannot read properties of undefined (reading 'property')\n\n---",
-        "summary": "## SUMMARY\n- PASSED SUITES: 1\n- FAILED SUITES: 2\n- TOTAL TESTS: 11 (5 passed, 5 failed)\n- DURATION: 2.06s\n- EXIT CODE: 1"
+        "summary": "## SUMMARY\n- PASSED SUITES: 1\n- FAILED SUITES: 2\n- TOTAL TESTS: 11 (5 passed, 5 failed)\n- DURATION: 1.92s\n- EXIT CODE: 1"
       }
     },
     "typescript_cypress_detailed.txt": {
@@ -140,7 +140,7 @@
         "test_failure_#4": "## TEST FAILURE #4",
         "test_failure_#5": "## TEST FAILURE #5",
         "error_patterns_detected": "## ERROR PATTERNS DETECTED\n- 5 tests failed due to Multiple failures in tests module\n- 3 tests failed due to Multiple assertion failures\n- 2 tests failed due to Multiple type-related errors\n- 2 tests failed due to Multiple expectation mismatches\n\n---",
-        "summary": "## SUMMARY\n- TOTAL TESTS: 11 (5 passed, 5 failed)\n- FAILURE RATE: 45.45%\n- DURATION: 1.88s\n- EXIT CODE: 1"
+        "summary": "## SUMMARY\n- TOTAL TESTS: 11 (5 passed, 5 failed)\n- FAILURE RATE: 45.45%\n- DURATION: 1.87s\n- EXIT CODE: 1"
       }
     }
   },

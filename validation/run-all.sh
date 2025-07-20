@@ -5,6 +5,9 @@
 
 set -e
 
+# Ensure all child processes are terminated on exit
+trap 'kill $(jobs -p) 2>/dev/null' EXIT
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 VALIDATION_SUITE="$PROJECT_ROOT/shared/validation-suite"
@@ -78,6 +81,9 @@ add_test_result() {
         TEST_RESULTS+=("${suite}|${test_name}|${error_msg}")
     fi
 }
+
+# Global variable for duration to avoid command substitution issues
+LAST_DURATION=0
 
 # Function to run a reporter and capture output
 run_reporter() {
@@ -223,9 +229,27 @@ run_reporter() {
             if cd "$reporter_path" 2>/dev/null; then
                 # Build the reporter
                 if go build -o llm-go-test . > /dev/null 2>&1; then
-                    # Run tests and write output directly, discard stdout to avoid interference
-                    ./llm-go-test -mode $mode -output "$output_file" ./tests > /dev/null 2>&1
-                    local exit_code=$?
+                    # Run tests and write output directly, close all unnecessary file descriptors
+                    # This prevents hanging when the script output is piped
+                    ./llm-go-test -mode $mode -output "$output_file" ./tests </dev/null >/dev/null 2>&1 &
+                    local test_pid=$!
+                    
+                    # Wait for the test to complete (with timeout)
+                    local waited=0
+                    while kill -0 $test_pid 2>/dev/null && [ $waited -lt 30 ]; do
+                        sleep 1
+                        waited=$((waited + 1))
+                    done
+                    
+                    # Kill if still running
+                    if kill -0 $test_pid 2>/dev/null; then
+                        kill -9 $test_pid 2>/dev/null
+                        wait $test_pid 2>/dev/null
+                        local exit_code=1
+                    else
+                        wait $test_pid
+                        local exit_code=$?
+                    fi
                     
                     # Check if output was generated
                     if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
@@ -250,8 +274,8 @@ run_reporter() {
     esac
     
     local test_end=$(date +%s)
-    local duration=$((test_end - test_start))
-    echo "$duration"
+    LAST_DURATION=$((test_end - test_start))
+    return 0
 }
 
 
@@ -279,9 +303,9 @@ if should_run_language "typescript"; then
                 test_name="typescript > $framework > $test_mode mode"
                 
                 # Run reporter and measure time
-                if duration=$(run_reporter "typescript" "$framework" "$reporter_path" "$test_mode"); then
+                if run_reporter "typescript" "$framework" "$reporter_path" "$test_mode"; then
                     # Mark as passed for now - actual validation will happen with Python script
-                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$LAST_DURATION"
                 else
                     add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
                     suite_has_failures=1
@@ -317,8 +341,8 @@ if should_run_language "python"; then
             for test_mode in summary detailed; do
                 test_name="python > $framework > $test_mode mode"
                 
-                if duration=$(run_reporter "python" "$framework" "$reporter_path" "$test_mode"); then
-                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+                if run_reporter "python" "$framework" "$reporter_path" "$test_mode"; then
+                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$LAST_DURATION"
                 else
                     add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
                     suite_has_failures=1
@@ -353,8 +377,8 @@ if should_run_language "go"; then
             for test_mode in summary detailed; do
                 test_name="go > $framework > $test_mode mode"
                 
-                if duration=$(run_reporter "go" "$framework" "$reporter_path" "$test_mode"); then
-                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+                if run_reporter "go" "$framework" "$reporter_path" "$test_mode"; then
+                    add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$LAST_DURATION"
                 else
                     add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
                     suite_has_failures=1
@@ -387,8 +411,8 @@ if should_run_language "java"; then
         test_name="java > $framework > summary mode"
         
         if [ -d "$reporter_path" ]; then
-            if duration=$(run_reporter "java" "$framework" "$reporter_path" "summary"); then
-                add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+            if run_reporter "java" "$framework" "$reporter_path" "summary"; then
+                add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$LAST_DURATION"
             else
                 add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
                 suite_has_failures=1

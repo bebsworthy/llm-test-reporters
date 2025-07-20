@@ -1,3 +1,9 @@
+<div align="center">
+
+![image](https://img.shields.io/badge/100%25_AI-certified_slop-FBB040?style=for-the-badge&logo=claude&logoColor=white)
+
+</div>
+
 # LLM-Optimized Test Reporters
 
 A collection of test reporters for various testing frameworks, optimized for LLM context efficiency. These reporters aim to reduce output noise and help minimize missed test failures when analyzed by LLMs.

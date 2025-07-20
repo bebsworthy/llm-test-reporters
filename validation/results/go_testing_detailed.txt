@@ -1,66 +1,6 @@
 # LLM TEST REPORTER - DETAILED MODE
 
 ## TEST FAILURE #1
-SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
-TEST: TestFailingEquality
-FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:17
-TYPE: Assertion Error
-
-FAILURE REASON: values not equal: 4 != 5
-FIX HINT: Check test assertions and expectations
-
----
-## TEST FAILURE #2
-SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
-TEST: TestFailingSliceComparison
-FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:39
-TYPE: Assertion Error
-
-FAILURE REASON: slices differ at index 2: 3 != 4
-FIX HINT: Check test assertions and expectations
-
----
-## TEST FAILURE #3
-SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
-TEST: TestTableDrivenMixed > add_zero
-FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:62
-TYPE: Error
-
-FAILURE REASON: add zero: 0 + 5 = 5, want 10
-FIX HINT: Review error message and stack trace for details
-
----
-## TEST FAILURE #4
-SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
-TEST: TestTableDrivenMixed > add_overflow
-FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:62
-TYPE: Error
-
-FAILURE REASON: add overflow: 2147483647 + 1 = 2147483648, want 0
-FIX HINT: Review error message and stack trace for details
-
----
-## TEST FAILURE #5
-SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
-TEST: TestTableDrivenMixed
-FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:1
-TYPE: Error
-
-FAILURE REASON: Test failed
-FIX HINT: Review error message and stack trace for details
-
----
-## TEST FAILURE #6
-SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
-TEST: TestErrorMessage
-FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:80
-TYPE: Error
-
-FAILURE REASON: expected error for empty input
-FIX HINT: Review error message and stack trace for details
-
----
-## TEST FAILURE #1
 SUITE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go
 TEST: TestAssertionFailure
 FILE: /Users/boyd/wip/reporters/go/testing-reporter/all_failing_test.go:13
@@ -160,6 +100,66 @@ FAILURE REASON: Complex error:
 FIX HINT: Review error message and stack trace for details
 
 ---
+## TEST FAILURE #1
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestFailingEquality
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:17
+TYPE: Assertion Error
+
+FAILURE REASON: values not equal: 4 != 5
+FIX HINT: Check test assertions and expectations
+
+---
+## TEST FAILURE #2
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestFailingSliceComparison
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:39
+TYPE: Assertion Error
+
+FAILURE REASON: slices differ at index 2: 3 != 4
+FIX HINT: Check test assertions and expectations
+
+---
+## TEST FAILURE #3
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestTableDrivenMixed > add_zero
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:62
+TYPE: Error
+
+FAILURE REASON: add zero: 0 + 5 = 5, want 10
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #4
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestTableDrivenMixed > add_overflow
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:62
+TYPE: Error
+
+FAILURE REASON: add overflow: 2147483647 + 1 = 2147483648, want 0
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #5
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestTableDrivenMixed
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:1
+TYPE: Error
+
+FAILURE REASON: Test failed
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #6
+SUITE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go
+TEST: TestErrorMessage
+FILE: /Users/boyd/wip/reporters/go/testing-reporter/mixed_results_test.go:80
+TYPE: Error
+
+FAILURE REASON: expected error for empty input
+FIX HINT: Review error message and stack trace for details
+
+---
 ## ERROR PATTERNS DETECTED
 - 16 tests failed
 
@@ -169,5 +169,5 @@ FIX HINT: Review error message and stack trace for details
 - PASSED SUITES: 0
 - FAILED SUITES: 1
 - TOTAL TESTS: 26 (10 passed, 16 failed)
-- DURATION: 0.38s
+- DURATION: 0.39s
 - EXIT CODE: 1

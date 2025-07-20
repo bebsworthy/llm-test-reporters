@@ -28,9 +28,9 @@
     "@llm-reporters/shared-utilities": "file:../shared-utilities"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^24.0.15",
-    "mocha": "^10.0.0",
+    "mocha": "^11.7.1",
     "typescript": "^5.8.3"
   },
   "files": [

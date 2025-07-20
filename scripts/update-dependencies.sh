@@ -80,26 +80,100 @@ fi
 echo -e "\n${BLUE}=== Updating TypeScript packages ===${NC}"
 find_and_update_packages "$PROJECT_ROOT/typescript" 2
 
+# Function to update Python dependencies
+update_python_dependencies() {
+    local dir=$1
+    local name=$(basename "$dir")
+    
+    echo -e "\n${BLUE}Updating Python dependencies in: ${name}${NC}"
+    echo "Path: $dir"
+    
+    cd "$dir"
+    
+    # Activate virtual environment if available
+    if [ -z "$VIRTUAL_ENV" ] && [ -d "$PROJECT_ROOT/python/.venv" ]; then
+        source "$PROJECT_ROOT/python/.venv/bin/activate"
+    fi
+    
+    # Update based on project type
+    if [ -f "requirements.txt" ]; then
+        echo -e "\n${YELLOW}Updating requirements.txt dependencies...${NC}"
+        
+        # Create a backup
+        cp requirements.txt requirements.txt.bak
+        
+        # Update all packages
+        pip list --format=freeze | grep -v "^-e" | cut -d'=' -f1 | xargs -n1 pip install -U
+        
+        # Regenerate requirements.txt
+        pip freeze > requirements.txt
+        
+        echo -e "${GREEN}✓ Updated requirements.txt${NC}"
+    fi
+    
+    if [ -f "setup.py" ] || [ -f "pyproject.toml" ]; then
+        echo -e "\n${YELLOW}Updating package dependencies...${NC}"
+        pip install -e . --upgrade
+        echo -e "${GREEN}✓ Updated package${NC}"
+    fi
+}
+
 # Update Python packages if they exist
 if [ -d "$PROJECT_ROOT/python" ]; then
     echo -e "\n${BLUE}=== Updating Python packages ===${NC}"
-    find "$PROJECT_ROOT/python" -name "requirements.txt" -o -name "setup.py" -o -name "pyproject.toml" | while read -r file; do
-        dir=$(dirname "$file")
-        echo -e "\n${YELLOW}Found Python package in: $dir${NC}"
-        # Add Python update logic here if needed
+    
+    # Check if we're in a virtual environment
+    if [ -z "$VIRTUAL_ENV" ] && [ -d "$PROJECT_ROOT/python/.venv" ]; then
+        echo -e "${YELLOW}Activating Python virtual environment...${NC}"
+        source "$PROJECT_ROOT/python/.venv/bin/activate"
+    fi
+    
+    for dir in "$PROJECT_ROOT/python"/*; do
+        if [ -d "$dir" ] && [ -f "$dir/requirements.txt" -o -f "$dir/setup.py" -o -f "$dir/pyproject.toml" ]; then
+            update_python_dependencies "$dir"
+        fi
     done
 fi
+
+# Function to update Go dependencies
+update_go_dependencies() {
+    local dir=$1
+    local name=$(basename "$dir")
+    
+    echo -e "\n${BLUE}Updating Go modules in: ${name}${NC}"
+    echo "Path: $dir"
+    
+    cd "$dir"
+    
+    # Update all dependencies
+    echo -e "\n${YELLOW}Updating Go modules...${NC}"
+    go get -u ./...
+    
+    # Clean up
+    echo -e "\n${YELLOW}Tidying Go modules...${NC}"
+    go mod tidy
+    
+    # Download dependencies
+    echo -e "\n${YELLOW}Downloading dependencies...${NC}"
+    go mod download
+    
+    echo -e "${GREEN}✓ Updated ${name}${NC}"
+}
 
 # Update Go packages if they exist
 if [ -d "$PROJECT_ROOT/go" ]; then
     echo -e "\n${BLUE}=== Updating Go packages ===${NC}"
-    find "$PROJECT_ROOT/go" -name "go.mod" | while read -r file; do
-        dir=$(dirname "$file")
-        echo -e "\n${YELLOW}Updating Go modules in: $dir${NC}"
-        cd "$dir"
-        go get -u ./...
-        go mod tidy
-    done
+    
+    # Check if go is installed
+    if ! command -v go &> /dev/null; then
+        echo -e "${RED}Go not found, skipping Go packages${NC}"
+    else
+        for dir in "$PROJECT_ROOT/go"/*; do
+            if [ -d "$dir" ] && [ -f "$dir/go.mod" ]; then
+                update_go_dependencies "$dir"
+            fi
+        done
+    fi
 fi
 
 # Update Java packages if they exist
@@ -116,6 +190,7 @@ fi
 echo -e "\n${BLUE}=== Running builds to verify updates ===${NC}"
 
 # Build TypeScript packages
+echo -e "\n${YELLOW}Building TypeScript packages...${NC}"
 for dir in "$PROJECT_ROOT/typescript"/*; do
     if [ -d "$dir" ] && [ -f "$dir/package.json" ] && [ -f "$dir/tsconfig.json" ]; then
         name=$(basename "$dir")
@@ -128,6 +203,50 @@ for dir in "$PROJECT_ROOT/typescript"/*; do
         fi
     fi
 done
+
+# Test Python packages
+if [ -d "$PROJECT_ROOT/python" ]; then
+    echo -e "\n${YELLOW}Testing Python packages...${NC}"
+    for dir in "$PROJECT_ROOT/python"/*; do
+        if [ -d "$dir" ] && [ -f "$dir/setup.py" -o -f "$dir/pyproject.toml" ]; then
+            name=$(basename "$dir")
+            echo -e "\n${YELLOW}Testing ${name}...${NC}"
+            cd "$dir"
+            
+            # Try to run tests
+            if [ -f "setup.py" ] && grep -q "test" setup.py; then
+                if python setup.py test 2>/dev/null; then
+                    echo -e "${GREEN}✓ Tests passed${NC}"
+                else
+                    echo -e "${YELLOW}⚠ Some tests may have failed${NC}"
+                fi
+            elif [ -d "tests" ]; then
+                if python -m pytest tests 2>/dev/null || python -m unittest discover tests 2>/dev/null; then
+                    echo -e "${GREEN}✓ Tests passed${NC}"
+                else
+                    echo -e "${YELLOW}⚠ Some tests may have failed${NC}"
+                fi
+            fi
+        fi
+    done
+fi
+
+# Build Go packages
+if [ -d "$PROJECT_ROOT/go" ] && command -v go &> /dev/null; then
+    echo -e "\n${YELLOW}Building Go packages...${NC}"
+    for dir in "$PROJECT_ROOT/go"/*; do
+        if [ -d "$dir" ] && [ -f "$dir/go.mod" ]; then
+            name=$(basename "$dir")
+            echo -e "\n${YELLOW}Building ${name}...${NC}"
+            cd "$dir"
+            if go build ./... 2>/dev/null; then
+                echo -e "${GREEN}✓ Build successful${NC}"
+            else
+                echo -e "${RED}✗ Build failed - you may need to fix compatibility issues${NC}"
+            fi
+        fi
+    done
+fi
 
 # Run validation
 echo -e "\n${BLUE}=== Running validation ===${NC}"

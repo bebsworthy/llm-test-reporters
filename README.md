@@ -44,6 +44,7 @@ These reporters attempt to address these issues with a cleaner, more structured 
 
 Choose your testing framework and install the corresponding reporter:
 
+### TypeScript/JavaScript
 ```bash
 # For Jest
 npm install --save-dev @llm-reporters/jest-reporter
@@ -61,6 +62,26 @@ npm install --save-dev @llm-reporters/playwright-reporter
 npm install --save-dev @llm-test-reporter/cypress
 ```
 
+### Python
+```bash
+# For pytest
+pip install llm-pytest-reporter
+
+# For unittest
+pip install llm-unittest-reporter
+```
+
+### Go
+```bash
+# Build from source
+git clone https://github.com/llm-reporters/go-testing-reporter.git
+cd go-testing-reporter
+go build -o llm-go-test .
+
+# Or install globally
+go install github.com/llm-reporters/go-testing-reporter@latest
+```
+
 Then configure your test framework to use the reporter. See the detailed guides for each framework:
 
 - **[Jest Configuration Guide](examples/jest-example.md)**
@@ -68,6 +89,9 @@ Then configure your test framework to use the reporter. See the detailed guides 
 - **[Mocha Configuration Guide](examples/mocha-example.md)**
 - **[Playwright Configuration Guide](examples/playwright-example.md)**
 - **[Cypress Configuration Guide](examples/cypress-example.md)**
+- **[pytest Configuration Guide](examples/pytest-example.md)**
+- **[unittest Configuration Guide](examples/unittest-example.md)**
+- **[Go Configuration Guide](examples/go-example.md)**
 
 ## 📋 Output Examples
 
@@ -158,11 +182,19 @@ Create `.llm-reporter.json`:
 
 See the [examples directory](examples/) for complete working examples:
 
+### TypeScript/JavaScript
 - **[jest-example.md](examples/jest-example.md)** - Complete Jest reporter guide with code and configuration
 - **[vitest-example.md](examples/vitest-example.md)** - Complete Vitest reporter guide with TypeScript examples
 - **[mocha-example.md](examples/mocha-example.md)** - Mocha reporter guide with async patterns
 - **[playwright-example.md](examples/playwright-example.md)** - Playwright E2E testing guide
 - **[cypress-example.md](examples/cypress-example.md)** - Cypress testing guide with aggregation
+
+### Python
+- **[pytest-example.md](examples/pytest-example.md)** - pytest reporter guide with fixtures and parametrized tests
+- **[unittest-example.md](examples/unittest-example.md)** - unittest reporter guide with TestCase examples
+
+### Go
+- **[go-example.md](examples/go-example.md)** - Go test reporter guide with table-driven tests and testify support
 
 ## 🔧 Advanced Usage
 
@@ -212,6 +244,12 @@ reporters/
 │   ├── jest-reporter/
 │   ├── vitest-reporter/
 │   └── ...
+├── python/               # Python reporters
+│   ├── pytest-reporter/
+│   └── unittest-reporter/
+├── go/                   # Go reporters
+│   ├── testing-reporter/
+│   └── shared/
 ├── validation/           # Cross-reporter validation tools
 └── README.md
 ```

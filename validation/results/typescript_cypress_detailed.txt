@@ -1,0 +1,95 @@
+
+> @llm-test-reporter/cypress@1.0.0 test:example
+> rm -rf .cypress-results; LLM_OUTPUT_MODE=json cypress run --config-file cypress.example.config.ts --quiet; node ./dist/aggregate.js
+
+
+DevTools listening on ws://127.0.0.1:57161/devtools/browser/2f6f0503-aee5-4482-b0a1-d6823e96f26e
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: cypress/e2e/all-failing.cy.ts
+TEST: Test 1 - Should fail
+FILE: cypress/e2e/all-failing.cy.ts:2
+TYPE: Assertion Error
+
+EXPECTED: 'expected'
+RECEIVED: 'actual'
+
+CODE CONTEXT:
+  1 | describe('All Failing Tests', () => {
+> 2 |   it('Test 1 - Should fail', () => {
+    |  ^
+  3 |     expect('actual').to.equal('expected'); // Will fail: Assertion error
+  4 |   });
+
+FAILURE REASON: Expected value 'expected' but received 'actual'
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #2
+SUITE: cypress/e2e/all-failing.cy.ts
+TEST: Test 2 - Should fail
+FILE: cypress/e2e/all-failing.cy.ts:6
+TYPE: Type Error
+
+CODE CONTEXT:
+  4 |   });
+  5 | 
+> 6 |   it('Test 2 - Should fail', () => {
+    |  ^
+  7 |     const arr: number[] = null as any;
+  8 |     expect(arr.length).to.equal(0); // Will fail: Type error - Cannot read property 'length' of null
+
+FAILURE REASON: Type error: Cannot read properties of null (reading 'length')
+FIX HINT: Check variable types and ensure proper initialization
+
+## TEST FAILURE #3
+SUITE: cypress/e2e/mixed-results.cy.ts
+TEST: Test 2 - Should fail
+FILE: cypress/e2e/mixed-results.cy.ts:6
+TYPE: Assertion Error
+
+EXPECTED: 5
+RECEIVED: 4
+
+CODE CONTEXT:
+  4 |   });
+  5 | 
+> 6 |   it('Test 2 - Should fail', () => {
+    |  ^
+  7 |     expect(2 + 2).to.equal(5); // Will fail: Expected 5 but got 4
+  8 |   });
+
+FAILURE REASON: Expected value 5 but received 4
+FIX HINT: Verify the assertion matches the actual behavior
+
+## TEST FAILURE #4
+SUITE: cypress/e2e/mixed-results.cy.ts
+TEST: Test 4 - Should fail
+FILE: cypress/e2e/mixed-results.cy.ts:14
+TYPE: Type Error
+
+CODE CONTEXT:
+  12 |   });
+  13 | 
+> 14 |   it('Test 4 - Should fail', () => {
+     |  ^
+  15 |     const obj: any = undefined;
+  16 |     expect(obj.property).to.equal('value'); // Will fail: Cannot read property of undefined
+
+FAILURE REASON: Type error: Cannot read properties of undefined (reading 'property')
+FIX HINT: Check variable types and ensure proper initialization
+
+---
+## ERROR PATTERNS DETECTED
+- 4 tests failed due to Multiple failures in unknown module
+- 2 tests failed due to Multiple assertion failures
+- 2 tests failed due to Multiple type-related errors
+
+---
+## SUMMARY
+- TOTAL TESTS: 11 (6 passed, 4 failed)
+- FAILURE RATE: 36.36%
+- DURATION: 0.00s
+- EXIT CODE: 1

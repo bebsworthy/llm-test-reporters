@@ -290,28 +290,13 @@ npm run test:example
 ./validation/benchmark.js
 ```
 
-## 📊 Performance
-
-The reporters are designed to add minimal overhead:
-
-| Reporter | Mode | Overhead | Output Reduction |
-|----------|------|----------|------------------|
-| Jest | Summary | <50ms | ~70%+ |
-| Jest | Detailed | <80ms | ~60%+ |
-
-*Estimates based on initial testing with 1000-test suite.*
-
-## 🤝 Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
 ### Adding a New Reporter
 
 1. Follow the structure in `typescript/jest-reporter/`
 2. Implement the standard format from `documentation/reporter-format.feat.md`
 3. Add tests demonstrating various failure types
 4. Ensure validation passes: `./validation/run-all.sh`
-5. Submit a PR with benchmark results
+5. Submit a PR
 
 ## 📄 License
 

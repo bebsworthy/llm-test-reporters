@@ -314,16 +314,22 @@ suite_has_failures=0
 
 for framework in testing testify; do
     reporter_path="$PROJECT_ROOT/go/${framework}-reporter"
-    test_name="go > $framework > summary mode"
-    
     if [ -d "$reporter_path" ]; then
-        if duration=$(run_reporter "go" "$framework" "$reporter_path" "summary"); then
-            add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
-        else
-            add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
-            suite_has_failures=1
-        fi
+        # Test both summary and detailed modes
+        for test_mode in summary detailed; do
+            test_name="go > $framework > $test_mode mode"
+            
+            if duration=$(run_reporter "go" "$framework" "$reporter_path" "$test_mode"); then
+                add_test_result "$CURRENT_SUITE" "$test_name" "passed" "" "$duration"
+            else
+                add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Reporter execution failed" "0"
+                suite_has_failures=1
+            fi
+        done
     else
+        test_name="go > $framework > summary mode"
+        add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
+        test_name="go > $framework > detailed mode"
         add_test_result "$CURRENT_SUITE" "$test_name" "failed" "Not implemented yet" "0"
         suite_has_failures=1
     fi

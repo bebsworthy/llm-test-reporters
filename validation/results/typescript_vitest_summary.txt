@@ -1,31 +1,26 @@
+
+> @llm-reporters/vitest-reporter@1.0.0 test:example
+> vitest run --config vitest.example.config.mjs
+
+
 # LLM TEST REPORTER - SUMMARY MODE
 
-SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/async.test.ts
+SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/all-failing.test.ts
 FAILED TESTS:
-- should handle promise rejection: promise resolved "'success'" instead of rejecting
-- should timeout on slow operation: Test timed out in 500ms.
-- should handle concurrent promises: Failed
+- Test 1 - Should fail: expected 'actual' to be 'expected' // Object.is equality
+- Test 2 - Should fail: Cannot read properties of null (reading 'length')
+- Test 3 - Should fail: Test timed out in 500ms.
 
 ---
-SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/math.test.ts
+SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/mixed-results.test.ts
 FAILED TESTS:
-- should handle negative numbers: expected 2 to be +0 // Object.is equality
-- should throw on divide by zero: expected [Function] to throw an error
-
----
-SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/vitest-specific.test.ts
-FAILED TESTS:
-- should spy on methods: expected "method" to be called with arguments: [ 10 ]
-- should match snapshot: Snapshot `Vitest Specific Features > Snapshots > should match snapshot 1` mis...
-- concurrent test 2: expected false to be true // Object.is equality
-- add(2, 2) should return 5: expected 4 to be 5 // Object.is equality
-- should use toBeTypeOf: expected '42' to be type of 'number'
-- should use toSatisfy: expect(received).toSatisfy()
+- Test 2 - Should fail: expected 4 to be 5 // Object.is equality
+- Test 4 - Should fail: Cannot read properties of undefined (reading 'property')
 
 ---
 ## SUMMARY
 - PASSED SUITES: 0
-- FAILED SUITES: 3
-- TOTAL TESTS: 23 (12 passed, 11 failed)
-- DURATION: 0.81s
+- FAILED SUITES: 2
+- TOTAL TESTS: 7 (2 passed, 5 failed)
+- DURATION: 0.71s
 - EXIT CODE: 1

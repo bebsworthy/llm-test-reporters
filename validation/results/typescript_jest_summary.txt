@@ -1,27 +1,26 @@
+
+> @llm-reporters/jest-reporter@0.1.0 test:example
+> jest --config=jest.example.config.js
+
+
 # LLM TEST REPORTER - SUMMARY MODE
 
-SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/async.test.ts
+SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/all-failing.test.ts
 FAILED TESTS:
-- Async Operations > should timeout on slow operation: thrown: "Exceeded timeout of 500 ms for a test.
-- Async Operations > should handle promise rejection: expect(received).rejects.toThrow(expected)
+- All Failing Tests > Test 1 - Should fail: expect(received).toBe(expected) // Object.is equality
+- All Failing Tests > Test 2 - Should fail: Cannot read properties of null (reading 'length')
+- All Failing Tests > Test 3 - Should fail: thrown: "Exceeded timeout of 500 ms for a test.
 
 ---
-SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/string-utils.test.ts
+SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/mixed-results.test.ts
 FAILED TESTS:
-- String Utils > capitalize > should capitalize first letter: expect(received).toBe(expected) // Object.is equality
-- String Utils > capitalize > should handle already capitalized: expect(received).toBe(expected) // Object.is equality
-
----
-SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/calculator.test.ts
-FAILED TESTS:
-- Calculator > addition > should add two positive numbers: expect(received).toBe(expected) // Object.is equality
-- Calculator > addition > should handle negative numbers: expect(received).toBe(expected) // Object.is equality
-- Calculator > division > should throw on divide by zero: expect(received).toThrow(expected)
+- Mixed Results > Test 2 - Should fail: expect(received).toBe(expected) // Object.is equality
+- Mixed Results > Test 4 - Should fail: Cannot read properties of undefined (reading 'property')
 
 ---
 ## SUMMARY
-- PASSED SUITES: 0
-- FAILED SUITES: 3
-- TOTAL TESTS: 13 (6 passed, 7 failed)
-- DURATION: 1.68s
+- PASSED SUITES: 1
+- FAILED SUITES: 2
+- TOTAL TESTS: 11 (5 passed, 5 failed)
+- DURATION: 2.06s
 - EXIT CODE: 1

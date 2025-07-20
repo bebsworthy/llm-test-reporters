@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  testMatch: '**/validation.spec.ts', // Only run validation tests
+  testMatch: '**/*.spec.ts', // Run all test files
   timeout: 5 * 1000,
   expect: {
     timeout: 2000

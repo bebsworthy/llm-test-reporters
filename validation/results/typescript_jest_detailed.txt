@@ -1,149 +1,112 @@
+
+> @llm-reporters/jest-reporter@0.1.0 test:example
+> jest --config=jest.example.config.js
+
+
 # LLM TEST REPORTER - DETAILED MODE
 
 ## TEST FAILURE #1
-SUITE: async
-TEST: Async Operations > should timeout on slow operation
-FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/async.test.ts:13
+SUITE: all-failing
+TEST: All Failing Tests > Test 1 - Should fail
+FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/all-failing.test.ts:5
+TYPE: Assertion Error
+
+EXPECTED: ) // Object.is equality
+RECEIVED: ).toBe(expected) // Object.is equality
+
+CODE CONTEXT:
+  3 | describe('All Failing Tests', () => {
+  4 |   test('Test 1 - Should fail', () => {
+> 5 |     expect('actual').toBe('expected'); // Will fail: Assertion error
+    |                      ^
+  6 |   });
+  7 | 
+
+FAILURE REASON: Expected value ) // Object.is equality but received ).toBe(expected) // Object.is equality
+FIX HINT: Check the expected value or fix the implementation to return correct result
+
+## TEST FAILURE #2
+SUITE: all-failing
+TEST: All Failing Tests > Test 2 - Should fail
+FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/all-failing.test.ts:10
+TYPE: Type Error
+
+CODE CONTEXT:
+   8 |   test('Test 2 - Should fail', () => {
+   9 |     const arr: number[] = null as any;
+> 10 |     expect(arr.length).toBe(0); // Will fail: Type error - Cannot read property 'length' of null
+     |                ^
+  11 |   });
+  12 | 
+
+FAILURE REASON: Type error: Cannot read properties of null (reading 'length')
+FIX HINT: Check variable types and ensure proper initialization
+
+## TEST FAILURE #3
+SUITE: all-failing
+TEST: All Failing Tests > Test 3 - Should fail
+FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/all-failing.test.ts:13
 TYPE: Assertion Error
 
 CODE CONTEXT:
   11 |   });
   12 | 
-> 13 |   it('should timeout on slow operation', async () => {
-     |     ^
-  14 |     // This will timeout - intentionally taking longer than test timeout
-  15 |     const result = await slowOperation();
+> 13 |   test('Test 3 - Should fail', async () => {
+     |       ^
+  14 |     await new Promise(resolve => setTimeout(resolve, 1000));
+  15 |     expect(true).toBe(true); // Will fail: Timeout (assuming test timeout is < 1000ms)
 
 FAILURE REASON: thrown: "Exceeded timeout of 500 ms for a test.
 Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
 FIX HINT: Verify the assertion matches the actual behavior
 
-## TEST FAILURE #2
-SUITE: async
-TEST: Async Operations > should handle promise rejection
-FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/async.test.ts:20
-TYPE: Timeout
-
-CODE CONTEXT:
-  18 | 
-  19 |   it('should handle promise rejection', async () => {
-> 20 |     await expect(failingOperation()).rejects.toThrow('Network error');
-     |                                              ^
-  21 |     // Will fail - wrong error message
-  22 |   });
-
-FAILURE REASON: Test execution exceeded configured timeout
-FIX HINT: Increase test timeout or optimize async operations
-
-## TEST FAILURE #3
-SUITE: calculator
-TEST: Calculator > addition > should add two positive numbers
-FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/calculator.test.ts:11
-TYPE: Assertion Error
-
-EXPECTED: ) // Object.is equality
-RECEIVED: ).toBe(expected) // Object.is equality
-
-CODE CONTEXT:
-   9 |     it('should add two positive numbers', () => {
-  10 |       const result = add(2, 3);
-> 11 |       expect(result).toBe(5);
-     |                      ^
-  12 |     });
-  13 | 
-
-FAILURE REASON: Expected value ) // Object.is equality but received ).toBe(expected) // Object.is equality
-FIX HINT: Check the expected value or fix the implementation to return correct result
-
 ## TEST FAILURE #4
-SUITE: calculator
-TEST: Calculator > addition > should handle negative numbers
-FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/calculator.test.ts:16
+SUITE: mixed-results
+TEST: Mixed Results > Test 2 - Should fail
+FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/mixed-results.test.ts:9
 TYPE: Assertion Error
 
 EXPECTED: ) // Object.is equality
 RECEIVED: ).toBe(expected) // Object.is equality
 
 CODE CONTEXT:
-  14 |     it('should handle negative numbers', () => {
-  15 |       const result = add(-1, 1);
-> 16 |       expect(result).toBe(0); // This will fail - expecting 0 but will get -2
-     |                      ^
-  17 |     });
-  18 | 
+   7 | 
+   8 |   test('Test 2 - Should fail', () => {
+>  9 |     expect(2 + 2).toBe(5); // Will fail: Expected 5 but got 4
+     |                   ^
+  10 |   });
+  11 | 
 
 FAILURE REASON: Expected value ) // Object.is equality but received ).toBe(expected) // Object.is equality
 FIX HINT: Check the expected value or fix the implementation to return correct result
 
 ## TEST FAILURE #5
-SUITE: calculator
-TEST: Calculator > division > should throw on divide by zero
-FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/calculator.test.ts:32
-TYPE: Assertion Error
-
-EXPECTED: )
-RECEIVED: ).toThrow(expected)
+SUITE: mixed-results
+TEST: Mixed Results > Test 4 - Should fail
+FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/mixed-results.test.ts:18
+TYPE: Type Error
 
 CODE CONTEXT:
-  30 | 
-  31 |     it('should throw on divide by zero', () => {
-> 32 |       expect(() => divide(10, 0)).toThrow('Division by zero');
-     |                                   ^
-  33 |       // This will fail - function doesn't throw
-  34 |     });
+  16 |   test('Test 4 - Should fail', () => {
+  17 |     const obj: any = undefined;
+> 18 |     expect(obj.property).toBe('value'); // Will fail: Cannot read property of undefined
+     |                ^
+  19 |   });
+  20 | 
 
-FAILURE REASON: Expected value ) but received ).toThrow(expected)
-FIX HINT: Ensure the function throws the expected error
-
-## TEST FAILURE #6
-SUITE: string-utils
-TEST: String Utils > capitalize > should capitalize first letter
-FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/string-utils.test.ts:11
-TYPE: Assertion Error
-
-EXPECTED: ) // Object.is equality
-RECEIVED: ).toBe(expected) // Object.is equality
-
-CODE CONTEXT:
-   9 |     it('should capitalize first letter', () => {
-  10 |       const result = capitalize('hello');
-> 11 |       expect(result).toBe('Hello'); // Will fail - function not implemented correctly
-     |                      ^
-  12 |     });
-  13 | 
-
-FAILURE REASON: Expected value ) // Object.is equality but received ).toBe(expected) // Object.is equality
-FIX HINT: Check the expected value or fix the implementation to return correct result
-
-## TEST FAILURE #7
-SUITE: string-utils
-TEST: String Utils > capitalize > should handle already capitalized
-FILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/string-utils.test.ts:21
-TYPE: Assertion Error
-
-EXPECTED: ) // Object.is equality
-RECEIVED: ).toBe(expected) // Object.is equality
-
-CODE CONTEXT:
-  19 |     it('should handle already capitalized', () => {
-  20 |       const result = capitalize('HELLO');
-> 21 |       expect(result).toBe('HELLO');
-     |                      ^
-  22 |     });
-  23 |   });
-
-FAILURE REASON: Expected value ) // Object.is equality but received ).toBe(expected) // Object.is equality
-FIX HINT: Check the expected value or fix the implementation to return correct result
+FAILURE REASON: Type error: Cannot read properties of undefined (reading 'property')
+FIX HINT: Check variable types and ensure proper initialization
 
 ---
 ## ERROR PATTERNS DETECTED
-- 7 tests failed due to Multiple failures in tests module
-- 6 tests failed due to Multiple assertion failures
-- 6 tests failed due to Multiple expectation mismatches
+- 5 tests failed due to Multiple failures in tests module
+- 3 tests failed due to Multiple assertion failures
+- 2 tests failed due to Multiple type-related errors
+- 2 tests failed due to Multiple expectation mismatches
 
 ---
 ## SUMMARY
-- TOTAL TESTS: 13 (6 passed, 7 failed)
-- FAILURE RATE: 53.85%
-- DURATION: 1.69s
+- TOTAL TESTS: 11 (5 passed, 5 failed)
+- FAILURE RATE: 45.45%
+- DURATION: 1.88s
 - EXIT CODE: 1

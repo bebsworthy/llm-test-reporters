@@ -90,14 +90,44 @@ class OutputComparator:
         
         return False, diff
 
-    def validate_format(self, content: str) -> Tuple[bool, List[str]]:
+    def validate_format(self, content: str) -> Tuple[bool, List[str], List[str]]:
         """Validate output against format specification"""
         errors = []
+        warnings = []
         
-        # Check header
-        if not content.startswith('# LLM TEST REPORTER'):
+        lines = content.split('\n')
+        
+        # Count lines before reporter output
+        header_index = -1
+        for i, line in enumerate(lines):
+            if line.startswith('# LLM TEST REPORTER'):
+                header_index = i
+                break
+        
+        if header_index == -1:
             errors.append("Missing or invalid header")
+        else:
+            lines_before = header_index
+            if lines_before > 4:
+                warnings.append(f"Excessive output before reporter: {lines_before} lines (threshold: 4)")
         
+        # Count lines after EXIT CODE
+        exit_index = -1
+        for i, line in enumerate(lines):
+            if 'EXIT CODE:' in line:
+                exit_index = i
+                break
+        
+        if exit_index != -1:
+            lines_after = len(lines) - exit_index - 1
+            # Filter out empty lines at the end
+            while lines_after > 0 and not lines[exit_index + lines_after].strip():
+                lines_after -= 1
+            
+            if lines_after > 4:
+                warnings.append(f"Excessive output after reporter: {lines_after} lines (threshold: 4)")
+        
+        # Original validations
         # Check for required sections
         if '## SUMMARY' not in content:
             errors.append("Missing SUMMARY section")
@@ -117,7 +147,7 @@ class OutputComparator:
             if not re.search(r':\d+$', ref.strip()):
                 errors.append(f"File reference missing line number: {ref}")
         
-        return len(errors) == 0, errors
+        return len(errors) == 0, errors, warnings
 
     def generate_report(self, results: Dict) -> None:
         """Generate comparison report"""
@@ -141,6 +171,15 @@ class OutputComparator:
                     print(f"\n{filename}:")
                     for error in file_data['errors']:
                         print(f"  - {error}")
+        
+        # Format validation warnings
+        if any(f['warnings'] for f in results['files'].values()):
+            print("\n## Format Validation Warnings:")
+            for filename, file_data in results['files'].items():
+                if file_data['warnings']:
+                    print(f"\n{filename}:")
+                    for warning in file_data['warnings']:
+                        print(f"  - {warning}")
         
         # Cross-framework comparison
         if results['comparisons']:
@@ -184,10 +223,11 @@ def main():
         with open(file_path, 'r') as f:
             content = f.read()
         
-        valid, errors = comparator.validate_format(content)
+        valid, errors, warnings = comparator.validate_format(content)
         results['files'][file_path.name] = {
             'valid': valid,
             'errors': errors,
+            'warnings': warnings,
             'sections': comparator.extract_sections(content)
         }
     

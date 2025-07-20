@@ -1,49 +1,26 @@
+
+> @llm-reporters/mocha-reporter@1.0.0 test
+> mocha --reporter ./dist/index.js tests/**/*.test.js
+
+
 # LLM TEST REPORTER - SUMMARY MODE
 
-SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/async.test.js
+SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/all-failing.test.js
 FAILED TESTS:
-- Async Operations > Promises > should reject with error: Expected values to be strictly equal:
-- Async Operations > Promises > should timeout on slow operation: Timeout of 100ms exceeded. For async tests and hooks, ensure "done()" is call...
-- Async Operations > Callbacks > should fail with done error: Callback error
-- Async Operations > Callbacks > should timeout without calling done: Timeout of 50ms exceeded. For async tests and hooks, ensure "done()" is calle...
-- Async Operations > Async/Await > should handle async errors: Async error
-- Async Operations > Async/Await > should fail on assertion in async: Expected values to be strictly equal:
+- All Failing Tests > Test 1 - Should fail: Expected values to be strictly equal:
+- All Failing Tests > Test 2 - Should fail: Cannot read properties of null (reading 'length')
+- All Failing Tests > Test 3 - Should fail: Timeout of 500ms exceeded. For async tests and hooks, ensure "done()" is call...
 
 ---
-SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/basic.test.js
+SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/mixed-results.test.js
 FAILED TESTS:
-- Basic Math Operations > Addition > should fail on incorrect sum: Math is broken!
-- Basic Math Operations > Division > should fail on incorrect division: Expected 10/2 to equal 3
-- String Operations > should fail on type error: Cannot read properties of null (reading 'toString')
-- String Operations > should detect undefined property access: Cannot read properties of undefined (reading 'nested')
-
----
-SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/hooks.test.js
-FAILED TESTS:
-- Test Hooks > "after each" hook for "should reset resource between tests": Resource count exceeded limit in afterEach
-- Hook Failures > "before all" hook for "should not run if before hook fails": Before hook failed
-- Async Hooks > "before each" hook for "should fail in async beforeEach": Async beforeEach error
-
----
-SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/nested.test.js
-FAILED TESTS:
-- Level 1 - API Tests > Level 2 - Authentication > Level 3 - Login > Level 4 - Valid Credentials > should set user session: Expected values to be strictly equal:
-- Level 1 - API Tests > Level 2 - Authentication > Level 3 - Login > Level 4 - Invalid Credentials > should not create session: Session should not be null
-- Level 1 - API Tests > Level 2 - Authentication > Level 3 - Logout > should revoke token: Token revocation failed
-- Level 1 - API Tests > Level 2 - Data Operations > Level 3 - CRUD Operations > should update resource: Cannot read properties of undefined (reading 'id')
-- Level 1 - Edge Cases > should handle suite with empty string name: This should fail
-- Level 1 - Edge Cases > Level 2 - Special Characters > should handle test with [brackets] and {braces}: Expected values to be strictly equal:
-
----
-SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/skip-pending.test.js
-FAILED TESTS:
-- Skipped and Pending Tests > Mixed Results > should fail: Boolean comparison failed
-- Skipped and Pending Tests > Mixed Results > should timeout: Timeout of 50ms exceeded. For async tests and hooks, ensure "done()" is calle...
+- Mixed Results > Test 2 - Should fail: Expected 5 but got 4
+- Mixed Results > Test 4 - Should fail: Cannot read properties of undefined (reading 'property')
 
 ---
 ## SUMMARY
 - PASSED SUITES: 0
-- FAILED SUITES: 5
-- TOTAL TESTS: 54 (24 passed, 21 failed)
-- DURATION: 0.26s
+- FAILED SUITES: 2
+- TOTAL TESTS: 8 (2 passed, 5 failed)
+- DURATION: 0.51s
 - EXIT CODE: 1

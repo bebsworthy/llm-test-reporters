@@ -1,1 +1,39 @@
-{"name": "@llm-reporters/cypress-reporter", "version": "0.1.0", "private": true}
+{
+  "name": "@llm-test-reporter/cypress",
+  "version": "1.0.0",
+  "description": "LLM-optimized test reporter for Cypress",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "cypress run --config-file cypress.config.ts",
+    "test:example": "rm -rf .cypress-results; LLM_OUTPUT_MODE=json cypress run --config-file cypress.example.config.ts --quiet; node ./dist/aggregate.js",
+    "test:example:direct": "cypress run --config-file cypress.example.config.ts --quiet",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "cypress",
+    "reporter",
+    "test",
+    "llm",
+    "ai",
+    "testing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "cypress": ">=10.0.0"
+  },
+  "dependencies": {
+    "@llm-test-reporter/shared-utilities": "file:../shared-utilities"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "cypress": "^13.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

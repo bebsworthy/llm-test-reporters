@@ -1,0 +1,419 @@
+{
+  "files": {
+    "typescript_mocha_summary.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
+        "suites": "SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/all-failing.test.js\nFAILED TESTS:\n- All Failing Tests > Test 1 - Should fail: Expected values to be strictly equal:\n- All Failing Tests > Test 2 - Should fail: Cannot read properties of null (reading 'length')\n- All Failing Tests > Test 3 - Should fail: Timeout of 500ms exceeded. For async tests and hooks, ensure \"done()\" is call...\n\n---\nSUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/mixed-results.test.js\nFAILED TESTS:\n- Mixed Results > Test 2 - Should fail: Expected 5 but got 4\n- Mixed Results > Test 4 - Should fail: Cannot read properties of undefined (reading 'property')\n\n---",
+        "summary": "## SUMMARY\n- PASSED SUITES: 0\n- FAILED SUITES: 2\n- TOTAL TESTS: 8 (2 passed, 5 failed)\n- DURATION: 0.51s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_vitest_detailed.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - DETAILED MODE\n",
+        "test_failure_#1": "## TEST FAILURE #1",
+        "suites": "SUITE: Mixed Results\nTEST: Test 4 - Should fail\nFILE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/mixed-results.test.ts:18\nTYPE: Type Error\n\nCODE CONTEXT:\n  16 |   test('Test 4 - Should fail', () => {\n  17 |     const obj: any = undefined;\n> 18 |     expect(obj.property).toBe('value'); // Will fail: Cannot read property of undefined\n     |                ^\n  19 |   });\n  20 | \n\nFAILURE REASON: Type error: Cannot read properties of undefined (reading 'property')\nFIX HINT: Check variable types and ensure proper initialization\n\n---",
+        "test_failure_#2": "## TEST FAILURE #2",
+        "test_failure_#3": "## TEST FAILURE #3",
+        "test_failure_#4": "## TEST FAILURE #4",
+        "test_failure_#5": "## TEST FAILURE #5",
+        "error_patterns_detected": "## ERROR PATTERNS DETECTED\n- 5 tests failed due to Multiple failures in tests module\n- 2 tests failed due to Multiple assertion failures\n- 2 tests failed due to Multiple type-related errors\n\n---",
+        "summary": "## SUMMARY\n- TOTAL TESTS: 7 (2 passed, 5 failed)\n- FAILURE RATE: 71.43%\n- DURATION: 0.84s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_playwright_summary.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
+        "suites": "SUITE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/all-failing.spec.ts\nFAILED TESTS:\n- chromium > all-failing.spec.ts > All Failing Tests > Test 1 - Should fail > chromium: expect(received).toBe(expected...\n- chromium > all-failing.spec.ts > All Failing Tests > Test 2 - Should fail > chromium: TypeError: Cannot read properties of null (reading 'length')\n- chromium > all-failing.spec.ts > All Failing Tests > Test 3 - Should fail > chromium: Test timeout of 500ms exceeded.\n\n---\nSUITE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/mixed-results.spec.ts\nFAILED TESTS:\n- chromium > mixed-results.spec.ts > Mixed Results > Test 2 - Should fail > chromium: expect(received).toBe(expected...\n- chromium > mixed-results.spec.ts > Mixed Results > Test 4 - Should fail > chromium: TypeError: Cannot read properties of undefined (reading 'property')\n\n---",
+        "summary": "## SUMMARY\n- PASSED SUITES: 0\n- FAILED SUITES: 2\n- TOTAL TESTS: 11 (2 passed, 5 failed)\n- DURATION: 1.78s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_playwright_detailed.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - DETAILED MODE\n",
+        "test_failure_#1": "## TEST FAILURE #1",
+        "suites": "SUITE: chromium > mixed-results.spec.ts > Mixed Results\nTEST: chromium > mixed-results.spec.ts > Mixed Results > Test 4 - Should fail > chromium\nFILE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/mixed-results.spec.ts:18\nTYPE: Type Error\n\nCODE CONTEXT:\n  16 |   test('Test 4 - Should fail', async () => {\n  17 |     const obj: any = undefined;\n> 18 |     expect(obj.property).toBe('value'); // Will fail: Cannot read property of undefined\n     |                ^\n  19 |   });\n  20 | \n\nFAILURE REASON: Type error: TypeError: Cannot read properties of undefined (reading 'property')\nFIX HINT: Check variable types and ensure proper initialization\n\n---",
+        "test_failure_#2": "## TEST FAILURE #2",
+        "test_failure_#3": "## TEST FAILURE #3",
+        "test_failure_#4": "## TEST FAILURE #4",
+        "test_failure_#5": "## TEST FAILURE #5",
+        "error_patterns_detected": "## ERROR PATTERNS DETECTED\n- 5 tests failed due to Multiple failures in tests module\n- 3 tests failed due to Multiple assertion failures\n- 2 tests failed due to Multiple type-related errors\n\n---",
+        "summary": "## SUMMARY\n- TOTAL TESTS: 11 (2 passed, 5 failed)\n- FAILURE RATE: 45.45%\n- DURATION: 1.84s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_vitest_summary.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
+        "suites": "SUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/all-failing.test.ts\nFAILED TESTS:\n- Test 1 - Should fail: expected 'actual' to be 'expected' // Object.is equality\n- Test 2 - Should fail: Cannot read properties of null (reading 'length')\n- Test 3 - Should fail: Test timed out in 500ms.\n\n---\nSUITE: /Users/boyd/wip/reporters/typescript/vitest-reporter/tests/mixed-results.test.ts\nFAILED TESTS:\n- Test 2 - Should fail: expected 4 to be 5 // Object.is equality\n- Test 4 - Should fail: Cannot read properties of undefined (reading 'property')\n\n---",
+        "summary": "## SUMMARY\n- PASSED SUITES: 0\n- FAILED SUITES: 2\n- TOTAL TESTS: 7 (2 passed, 5 failed)\n- DURATION: 0.71s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_mocha_detailed.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
+        "suites": "SUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/all-failing.test.js\nFAILED TESTS:\n- All Failing Tests > Test 1 - Should fail: Expected values to be strictly equal:\n- All Failing Tests > Test 2 - Should fail: Cannot read properties of null (reading 'length')\n- All Failing Tests > Test 3 - Should fail: Timeout of 500ms exceeded. For async tests and hooks, ensure \"done()\" is call...\n\n---\nSUITE: /Users/boyd/wip/reporters/typescript/mocha-reporter/tests/mixed-results.test.js\nFAILED TESTS:\n- Mixed Results > Test 2 - Should fail: Expected 5 but got 4\n- Mixed Results > Test 4 - Should fail: Cannot read properties of undefined (reading 'property')\n\n---",
+        "summary": "## SUMMARY\n- PASSED SUITES: 0\n- FAILED SUITES: 2\n- TOTAL TESTS: 8 (2 passed, 5 failed)\n- DURATION: 0.51s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_cypress_summary.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
+        "suites": "SUITE: cypress/e2e/all-failing.cy.ts\nFAILED TESTS:\n- Test 1 - Should fail: expected 'actual' to equal 'expected'\n- Test 2 - Should fail: Cannot read properties of null (reading 'length')\n\n---\nSUITE: cypress/e2e/mixed-results.cy.ts\nFAILED TESTS:\n- Test 2 - Should fail: expected 4 to equal 5\n- Test 4 - Should fail: Cannot read properties of undefined (reading 'property')\n\n---",
+        "summary": "## SUMMARY\n- PASSED SUITES: 1\n- FAILED SUITES: 2\n- TOTAL TESTS: 11 (6 passed, 4 failed)\n- DURATION: 0.00s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_jest_summary.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - SUMMARY MODE\n",
+        "suites": "SUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/all-failing.test.ts\nFAILED TESTS:\n- All Failing Tests > Test 1 - Should fail: expect(received).toBe(expected) // Object.is equality\n- All Failing Tests > Test 2 - Should fail: Cannot read properties of null (reading 'length')\n- All Failing Tests > Test 3 - Should fail: thrown: \"Exceeded timeout of 500 ms for a test.\n\n---\nSUITE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/mixed-results.test.ts\nFAILED TESTS:\n- Mixed Results > Test 2 - Should fail: expect(received).toBe(expected) // Object.is equality\n- Mixed Results > Test 4 - Should fail: Cannot read properties of undefined (reading 'property')\n\n---",
+        "summary": "## SUMMARY\n- PASSED SUITES: 1\n- FAILED SUITES: 2\n- TOTAL TESTS: 11 (5 passed, 5 failed)\n- DURATION: 2.06s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_cypress_detailed.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - DETAILED MODE\n",
+        "test_failure_#1": "## TEST FAILURE #1",
+        "suites": "SUITE: cypress/e2e/mixed-results.cy.ts\nTEST: Test 4 - Should fail\nFILE: cypress/e2e/mixed-results.cy.ts:12\nTYPE: Type Error\n\nCODE CONTEXT:\n  10 |   it('Test 3 - Should pass', () => {\n  11 |     expect(['apple', 'banana']).to.include('apple');\n> 12 |   });\n     |^\n  13 | \n  14 |   it('Test 4 - Should fail', () => {\n\nFAILURE REASON: Type error: Cannot read properties of undefined (reading 'property')\nFIX HINT: Check variable types and ensure proper initialization\n\n---",
+        "test_failure_#2": "## TEST FAILURE #2",
+        "test_failure_#3": "## TEST FAILURE #3",
+        "test_failure_#4": "## TEST FAILURE #4",
+        "error_patterns_detected": "## ERROR PATTERNS DETECTED\n- 4 tests failed due to Multiple failures in unknown module\n- 2 tests failed due to Multiple assertion failures\n- 2 tests failed due to Multiple type-related errors\n\n---",
+        "summary": "## SUMMARY\n- TOTAL TESTS: 11 (6 passed, 4 failed)\n- FAILURE RATE: 36.36%\n- DURATION: 0.00s\n- EXIT CODE: 1"
+      }
+    },
+    "typescript_jest_detailed.txt": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "Excessive output before reporter: 5 lines (threshold: 4)"
+      ],
+      "sections": {
+        "header": "# LLM TEST REPORTER - DETAILED MODE\n",
+        "test_failure_#1": "## TEST FAILURE #1",
+        "suites": "SUITE: mixed-results\nTEST: Mixed Results > Test 4 - Should fail\nFILE: /Users/boyd/wip/reporters/typescript/jest-reporter/tests/mixed-results.test.ts:18\nTYPE: Type Error\n\nCODE CONTEXT:\n  16 |   test('Test 4 - Should fail', () => {\n  17 |     const obj: any = undefined;\n> 18 |     expect(obj.property).toBe('value'); // Will fail: Cannot read property of undefined\n     |                ^\n  19 |   });\n  20 | \n\nFAILURE REASON: Type error: Cannot read properties of undefined (reading 'property')\nFIX HINT: Check variable types and ensure proper initialization\n\n---",
+        "test_failure_#2": "## TEST FAILURE #2",
+        "test_failure_#3": "## TEST FAILURE #3",
+        "test_failure_#4": "## TEST FAILURE #4",
+        "test_failure_#5": "## TEST FAILURE #5",
+        "error_patterns_detected": "## ERROR PATTERNS DETECTED\n- 5 tests failed due to Multiple failures in tests module\n- 3 tests failed due to Multiple assertion failures\n- 2 tests failed due to Multiple type-related errors\n- 2 tests failed due to Multiple expectation mismatches\n\n---",
+        "summary": "## SUMMARY\n- TOTAL TESTS: 11 (5 passed, 5 failed)\n- FAILURE RATE: 45.45%\n- DURATION: 1.88s\n- EXIT CODE: 1"
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_vitest_detailed.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_playwright_summary.txt",
+      "match": false,
+      "diff_lines": 31
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_playwright_detailed.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_vitest_summary.txt",
+      "match": false,
+      "diff_lines": 31
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_mocha_detailed.txt",
+      "match": true,
+      "diff_lines": 0
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_cypress_summary.txt",
+      "match": false,
+      "diff_lines": 33
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_jest_summary.txt",
+      "match": false,
+      "diff_lines": 30
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 92
+    },
+    {
+      "file1": "typescript_mocha_summary.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 108
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_playwright_summary.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_playwright_detailed.txt",
+      "match": false,
+      "diff_lines": 124
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_vitest_summary.txt",
+      "match": false,
+      "diff_lines": 103
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_mocha_detailed.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_cypress_summary.txt",
+      "match": false,
+      "diff_lines": 105
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_jest_summary.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 132
+    },
+    {
+      "file1": "typescript_vitest_detailed.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 109
+    },
+    {
+      "file1": "typescript_playwright_summary.txt",
+      "file2": "typescript_playwright_detailed.txt",
+      "match": false,
+      "diff_lines": 103
+    },
+    {
+      "file1": "typescript_playwright_summary.txt",
+      "file2": "typescript_vitest_summary.txt",
+      "match": false,
+      "diff_lines": 31
+    },
+    {
+      "file1": "typescript_playwright_summary.txt",
+      "file2": "typescript_mocha_detailed.txt",
+      "match": false,
+      "diff_lines": 31
+    },
+    {
+      "file1": "typescript_playwright_summary.txt",
+      "file2": "typescript_cypress_summary.txt",
+      "match": false,
+      "diff_lines": 31
+    },
+    {
+      "file1": "typescript_playwright_summary.txt",
+      "file2": "typescript_jest_summary.txt",
+      "match": false,
+      "diff_lines": 30
+    },
+    {
+      "file1": "typescript_playwright_summary.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 91
+    },
+    {
+      "file1": "typescript_playwright_summary.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 107
+    },
+    {
+      "file1": "typescript_playwright_detailed.txt",
+      "file2": "typescript_vitest_summary.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_playwright_detailed.txt",
+      "file2": "typescript_mocha_detailed.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_playwright_detailed.txt",
+      "file2": "typescript_cypress_summary.txt",
+      "match": false,
+      "diff_lines": 104
+    },
+    {
+      "file1": "typescript_playwright_detailed.txt",
+      "file2": "typescript_jest_summary.txt",
+      "match": false,
+      "diff_lines": 105
+    },
+    {
+      "file1": "typescript_playwright_detailed.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 140
+    },
+    {
+      "file1": "typescript_playwright_detailed.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 118
+    },
+    {
+      "file1": "typescript_vitest_summary.txt",
+      "file2": "typescript_mocha_detailed.txt",
+      "match": false,
+      "diff_lines": 31
+    },
+    {
+      "file1": "typescript_vitest_summary.txt",
+      "file2": "typescript_cypress_summary.txt",
+      "match": false,
+      "diff_lines": 31
+    },
+    {
+      "file1": "typescript_vitest_summary.txt",
+      "file2": "typescript_jest_summary.txt",
+      "match": false,
+      "diff_lines": 32
+    },
+    {
+      "file1": "typescript_vitest_summary.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 92
+    },
+    {
+      "file1": "typescript_vitest_summary.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 108
+    },
+    {
+      "file1": "typescript_mocha_detailed.txt",
+      "file2": "typescript_cypress_summary.txt",
+      "match": false,
+      "diff_lines": 33
+    },
+    {
+      "file1": "typescript_mocha_detailed.txt",
+      "file2": "typescript_jest_summary.txt",
+      "match": false,
+      "diff_lines": 30
+    },
+    {
+      "file1": "typescript_mocha_detailed.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 92
+    },
+    {
+      "file1": "typescript_mocha_detailed.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 108
+    },
+    {
+      "file1": "typescript_cypress_summary.txt",
+      "file2": "typescript_jest_summary.txt",
+      "match": false,
+      "diff_lines": 27
+    },
+    {
+      "file1": "typescript_cypress_summary.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 87
+    },
+    {
+      "file1": "typescript_cypress_summary.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 106
+    },
+    {
+      "file1": "typescript_jest_summary.txt",
+      "file2": "typescript_cypress_detailed.txt",
+      "match": false,
+      "diff_lines": 91
+    },
+    {
+      "file1": "typescript_jest_summary.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 105
+    },
+    {
+      "file1": "typescript_cypress_detailed.txt",
+      "file2": "typescript_jest_detailed.txt",
+      "match": false,
+      "diff_lines": 141
+    }
+  ]
+}

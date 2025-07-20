@@ -1,16 +1,26 @@
+
+> @llm-reporters/playwright-reporter@1.0.0 test:example
+> playwright test --config=playwright.example.config.ts
+
+
 # LLM TEST REPORTER - SUMMARY MODE
 
-SUITE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/validation.spec.ts
+SUITE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/all-failing.spec.ts
 FAILED TESTS:
-- chromium > validation.spec.ts > Validation Tests > should fail number comparison > chromium: expect(received).toBe(expected...
-- chromium > validation.spec.ts > Validation Tests > should fail string assertion > chromium: expect(received).toBe(expected...
-- chromium > validation.spec.ts > Validation Tests > should handle array comparison > chromium: expect(received).toEqual(expected[...
-- chromium > validation.spec.ts > Validation Tests > should fail on object property > chromium: expect(received).toBe(expected...
+- chromium > all-failing.spec.ts > All Failing Tests > Test 1 - Should fail > chromium: expect(received).toBe(expected...
+- chromium > all-failing.spec.ts > All Failing Tests > Test 2 - Should fail > chromium: TypeError: Cannot read properties of null (reading 'length')
+- chromium > all-failing.spec.ts > All Failing Tests > Test 3 - Should fail > chromium: Test timeout of 500ms exceeded.
+
+---
+SUITE: /Users/boyd/wip/reporters/typescript/playwright-reporter/tests/mixed-results.spec.ts
+FAILED TESTS:
+- chromium > mixed-results.spec.ts > Mixed Results > Test 2 - Should fail > chromium: expect(received).toBe(expected...
+- chromium > mixed-results.spec.ts > Mixed Results > Test 4 - Should fail > chromium: TypeError: Cannot read properties of undefined (reading 'property')
 
 ---
 ## SUMMARY
 - PASSED SUITES: 0
-- FAILED SUITES: 1
-- TOTAL TESTS: 6 (1 passed, 4 failed)
-- DURATION: 1.05s
+- FAILED SUITES: 2
+- TOTAL TESTS: 11 (2 passed, 5 failed)
+- DURATION: 1.78s
 - EXIT CODE: 1

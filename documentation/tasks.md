@@ -88,31 +88,37 @@
 - ✅ Task 4.8: Create unittest test suite (class-based, setUp/tearDown)
 - ✅ Task 4.9: Package unittest reporter and document integration
 
-## Phase 5: Java Ecosystem (Not Started)
+## Phase 5: Go Ecosystem (Not Started)
 
 ### Specification
 
-- [Project Overview](./project.specs.md#phase-5-java-ecosystem)
+- [Project Overview](./project.specs.md#phase-5-go-ecosystem)
 
 ### Implementation (0/6 planned)
 
-- Task 5.1: Create java/ directory structure and shared utilities
-- Task 5.2: Implement Java base reporter classes
-- Task 5.3: Create JUnit reporter implementation
-- Task 5.4: Create JUnit test suite with various failure types
-- Task 5.5: Create TestNG reporter implementation
-- Task 5.6: Create TestNG test suite with various failure types
+- Task 5.1: Create go/ directory structure and shared module
+- Task 5.2: Implement Go base reporter (JSON parser, formatters)
+- Task 5.3: Create Go validation test suite
+- Task 5.4: Create go test wrapper command
+- Task 5.5: Create testify suite reporter interface
+- Task 5.6: Document Go reporter usage
 
-## Phase 6+: Additional Languages (Future)
+## Phase 6: Java Ecosystem (Future)
 
-### Go Ecosystem (0/6 planned)
+### Specification
 
-- Task 6.1: Create go/ directory structure and shared module
-- Task 6.2: Implement Go base reporter (JSON parser, formatters)
-- Task 6.3: Create Go validation test suite
-- Task 6.4: Create go test wrapper command
-- Task 6.5: Create testify suite reporter interface
-- Task 6.6: Document Go reporter usage
+- [Project Overview](./project.specs.md#phase-6-java-ecosystem)
+
+### Implementation (0/6 planned)
+
+- Task 6.1: Create java/ directory structure and shared utilities
+- Task 6.2: Implement Java base reporter classes
+- Task 6.3: Create JUnit reporter implementation
+- Task 6.4: Create JUnit test suite with various failure types
+- Task 6.5: Create TestNG reporter implementation
+- Task 6.6: Create TestNG test suite with various failure types
+
+## Phase 7+: Additional Languages (Future)
 
 ### Other Languages
 - Ruby (RSpec, Minitest)

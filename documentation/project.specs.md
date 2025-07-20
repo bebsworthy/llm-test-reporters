@@ -169,12 +169,16 @@
 - PyTest reporter
 - unittest reporter
 
-### Phase 5: Java Ecosystem
+### Phase 5: Go Ecosystem
+- Go test reporter
+- Testify reporter
+
+### Phase 6: Java Ecosystem
 - JUnit reporter
 - TestNG reporter
 
-### Phase 6+: Additional Languages
-- Go, Rust, C#, Ruby, PHP, Swift, Kotlin
+### Phase 7+: Additional Languages
+- Rust, C#, Ruby, PHP, Swift, Kotlin
 
 ## Technical Decisions
 

@@ -30,7 +30,7 @@ These reporters attempt to address these issues with a cleaner, more structured 
 - ✅ **Cypress** - Full support with multi-spec aggregation
 
 ### Other Languages (Planned)
-- 📅 Python (pytest, unittest, behave)
+- 📅 Python (pytest, unittest)
 - 📅 Go (testing, testify)
 - 📅 Java (JUnit, TestNG)
 - 📅 Ruby, PHP, C#, Rust

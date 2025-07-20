@@ -74,11 +74,6 @@
       -  tests/
       -  setup.py
       - README.md
-   - /behave-reporter
-      -  src/
-      -  tests/
-      -  setup.py
-      - README.md
 -  /go
    -  /testing-reporter
       -  reporter.go
@@ -173,7 +168,6 @@
 ### Phase 4: Python Ecosystem
 - PyTest reporter
 - unittest reporter
-- Behave reporter (BDD)
 
 ### Phase 5: Java Ecosystem
 - JUnit reporter

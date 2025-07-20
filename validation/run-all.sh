@@ -198,10 +198,6 @@ run_reporter() {
                 return 1
             fi
             ;;
-        "behave")
-            # Not implemented yet
-            return 1
-            ;;
         "testing"|"testify")
             # Not implemented yet
             return 1
@@ -262,7 +258,7 @@ fi
 CURRENT_SUITE="validation/python-reporters"
 suite_has_failures=0
 
-for framework in pytest unittest behave; do
+for framework in pytest unittest; do
     reporter_path="$PROJECT_ROOT/python/${framework}-reporter"
     if [ -d "$reporter_path" ]; then
         # Test both summary and detailed modes

@@ -27,12 +27,6 @@ SUITE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing
 FAILED TESTS:
 - TestComplexFailures > test_custom_exception: Operation failed due to custom reason
 - TestComplexFailures > test_list_comparison_failure: Lists differ: [1, 2, 30, 40, 5] != [1, 2, 3, 4, 5]
-
-First differing element 2:
-30
-3
-
-- [1, 2, 30, 40...
 - TestComplexFailures > test_multiple_assertions_fail: 5 not greater than 10
 - TestComplexFailures > test_nested_assertion_failure: {'use[14 chars]John', 'settings': {'theme': 'light', 'notifications': False}}} != {'use[14 chars]Joh...
 - TestComplexFailures > test_timeout_simulation: 499999500000 != 0
@@ -46,42 +40,22 @@ FAILED TESTS:
 SUITE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py
 FAILED TESTS:
 - TestStringFailures > test_string_case_failure: 'HELLO' != 'hello'
-- HELLO
-+ hello
-
 - TestStringFailures > test_string_contains_failure: 'Goodbye' not found in 'Hello World'
 - TestStringFailures > test_string_startswith_failure: False is not true
 - TestStringFailures > test_string_strip_failure: 'spaces' != '  spaces  '
-- spaces
-+   spaces  
-? ++      ++
-
 
 SUITE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py
 FAILED TESTS:
 - TestAsyncBehavior > test_assertion_with_message: Lists differ: [1, 2, 4] != [1, 2, 3]
 
-First differing element 2:
-4
-3
 
-- [1, 2, 4]
-?        ^
-
-+ [1, ...
+ : Lists should match but third element differs
 - TestAsyncBehavior > test_value_error: invalid literal for int() with base 10: 'not a number'
 
 SUITE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py
 FAILED TESTS:
 - TestCustomAssertions > test_dict_comparison_fail: {'name': 'John', 'age': 25, 'city': 'LA'} != {'name': 'John', 'age': 30, 'city': 'NYC'}
-- {'age': 25...
 - TestCustomAssertions > test_list_comparison_fail: Lists differ: [1, 2, 30, 40, 5] != [1, 2, 3, 4, 5]
-
-First differing element 2:
-30
-3
-
-- [1, 2, 30, 40...
 - TestCustomAssertions > test_unexpected_success: No error message
 
 SUITE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py
@@ -99,9 +73,6 @@ FAILED TESTS:
 SUITE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py
 FAILED TESTS:
 - TestSetUpTearDown > test_failing_file_content: 'test content' != 'wrong content'
-- test content
-+ wrong content
-
 
 ---
 ## SUMMARY
@@ -110,6 +81,3 @@ FAILED TESTS:
 - TOTAL TESTS: 74 (30 passed, 41 failed, 3 skipped)
 - DURATION: 0.05s
 - EXIT CODE: 1
-Ran 74 tests in 0.053s
-
-FAILED (failures=24, errors=16, skipped=2, expected failures=1, unexpected successes=1)

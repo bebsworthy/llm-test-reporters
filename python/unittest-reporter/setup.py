@@ -21,7 +21,9 @@ setup(
     url="https://github.com/yourusername/llm-test-reporters",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    install_requires=[],
+    install_requires=[
+        "llm-reporter-shared>=0.1.0",
+    ],
     entry_points={
         "console_scripts": [
             "llm-unittest=llm_unittest_reporter.runner:main",

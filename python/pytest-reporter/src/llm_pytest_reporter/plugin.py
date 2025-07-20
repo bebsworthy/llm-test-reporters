@@ -12,11 +12,16 @@ from _pytest.terminal import TerminalReporter
 from _pytest.reports import TestReport
 from _pytest._code import ExceptionInfo
 
-# Import from local copies of shared modules
-from .config import ReporterConfig
-from .models import TestSuite, TestResult, TestStatus, ErrorInfo
-from .formatters import StreamingFormatter
-from .error_classifier import ErrorClassifier
+# Import from shared package
+from llm_reporter_shared import (
+    ReporterConfig,
+    StreamingFormatter,
+    ErrorClassifier,
+    TestSuite,
+    TestResult,
+    TestStatus,
+    ErrorInfo
+)
 
 
 class LLMReporter:

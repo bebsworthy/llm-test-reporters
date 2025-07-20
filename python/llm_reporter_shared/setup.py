@@ -1,4 +1,4 @@
-"""Setup configuration for pytest LLM reporter."""
+"""Setup configuration for LLM reporter shared utilities."""
 
 from setuptools import setup, find_packages
 import os
@@ -9,12 +9,12 @@ if os.path.exists(readme_path):
     with open(readme_path, "r", encoding="utf-8") as f:
         long_description = f.read()
 else:
-    long_description = "LLM-optimized test reporter for pytest"
+    long_description = "Shared utilities for LLM-optimized test reporters"
 
 setup(
-    name="llm-pytest-reporter",
+    name="llm-reporter-shared",
     version="0.1.0",
-    description="LLM-optimized test reporter for pytest",
+    description="Shared utilities for LLM-optimized test reporters",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="LLM Test Reporters Team",
@@ -22,17 +22,10 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     install_requires=[
-        "pytest>=6.0.0",
-        "llm-reporter-shared>=0.1.0",
+        # No external dependencies needed
     ],
-    entry_points={
-        "pytest11": [
-            "llm_reporter = llm_pytest_reporter.plugin",
-        ],
-    },
     classifiers=[
         "Development Status :: 3 - Alpha",
-        "Framework :: Pytest",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
@@ -46,5 +39,5 @@ setup(
         "Topic :: Software Development :: Testing",
     ],
     python_requires=">=3.7",
-    keywords="pytest testing llm reporter",
+    keywords="testing llm reporter utilities",
 )

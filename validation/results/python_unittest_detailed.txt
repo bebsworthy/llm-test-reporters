@@ -1,0 +1,737 @@
+# LLM TEST REPORTER - DETAILED MODE
+
+## TEST FAILURE #1
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_assertion_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:11
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+   13 |         expected = 10
+   14 |         actual = 5
+>  15 |         self.assertEqual(actual, expected,
+   16 |                         f"Expected {expected} but got {actual}")
+   17 | 
+
+FAILURE REASON: 5 != 10 : Expected 10 but got 5
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_attribute_missing
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:45
+TYPE: AttributeError
+
+
+CODE CONTEXT:
+   51 |         person = Person("Bob")
+   52 |         # Accessing non-existent attribute
+>  53 |         age = person.age
+   54 |         self.assertEqual(age, 30)
+   55 | 
+
+FAILURE REASON: 'Person' object has no attribute 'age'
+FIX HINT: Verify object has the attribute or method
+
+---
+## TEST FAILURE #3
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_file_not_found
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:73
+TYPE: FileNotFoundError
+
+
+CODE CONTEXT:
+   73 |     def test_file_not_found(self):
+   74 |         """Test file operation on non-existent file."""
+>  75 |         with open("/path/that/does/not/exist.txt", "r") as f:
+   76 |             content = f.read()
+   77 |         self.assertEqual(content, "expected content")
+
+FAILURE REASON: [Errno 2] No such file or directory: '/path/that/does/not/exist.txt'
+FIX HINT: Verify file path and ensure file exists
+
+---
+## TEST FAILURE #4
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_import_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:56
+TYPE: ModuleNotFoundError
+
+
+CODE CONTEXT:
+   56 |     def test_import_failure(self):
+   57 |         """Import error for non-existent module."""
+>  58 |         import non_existent_module
+   59 |         self.assertIsNotNone(non_existent_module.function())
+   60 | 
+
+FAILURE REASON: No module named 'non_existent_module'
+FIX HINT: Ensure module is installed and import path is correct
+
+---
+## TEST FAILURE #5
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_index_out_of_bounds
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:31
+TYPE: IndexError
+
+
+CODE CONTEXT:
+   33 |         items = [1, 2, 3]
+   34 |         # Accessing index that doesn't exist
+>  35 |         value = items[10]
+   36 |         self.assertEqual(value, 4)
+   37 | 
+
+FAILURE REASON: list index out of range
+FIX HINT: Check array bounds before accessing elements
+
+---
+## TEST FAILURE #6
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_key_not_found
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:38
+TYPE: KeyError
+
+
+CODE CONTEXT:
+   40 |         data = {"name": "Alice", "age": 25}
+   41 |         # Accessing non-existent key
+>  42 |         city = data["city"]
+   43 |         self.assertEqual(city, "New York")
+   44 | 
+
+FAILURE REASON: 'city'
+FIX HINT: Verify dictionary key exists before access
+
+---
+## TEST FAILURE #7
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_name_undefined
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:67
+TYPE: NameError
+
+
+CODE CONTEXT:
+   68 |         """NameError for undefined variable."""
+   69 |         # Using undefined variable
+>  70 |         result = undefined_variable * 2
+   71 |         self.assertEqual(result, 10)
+   72 | 
+
+FAILURE REASON: name 'undefined_variable' is not defined
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #8
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_type_mismatch
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:18
+TYPE: TypeError
+
+
+CODE CONTEXT:
+   19 |         """Type error in operation."""
+   20 |         # Trying to add incompatible types
+>  21 |         result = "string" + 123
+   22 |         self.assertEqual(result, "string123")
+   23 | 
+
+FAILURE REASON: can only concatenate str (not "int") to str
+FIX HINT: Verify data types match expected values
+
+---
+## TEST FAILURE #9
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_value_conversion_error
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:61
+TYPE: ValueError
+
+
+CODE CONTEXT:
+   62 |         """ValueError in conversion."""
+   63 |         text = "not a number"
+>  64 |         number = int(text)
+   65 |         self.assertEqual(number, 42)
+   66 | 
+
+FAILURE REASON: invalid literal for int() with base 10: 'not a number'
+FIX HINT: Check input format and conversion logic
+
+---
+## TEST FAILURE #10
+SUITE: TestAllFailures
+TEST: TestAllFailures > test_zero_division
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:24
+TYPE: ZeroDivisionError
+
+
+CODE CONTEXT:
+   26 |         numerator = 10
+   27 |         denominator = 0
+>  28 |         result = numerator / denominator
+   29 |         self.assertEqual(result, float('inf'))
+   30 | 
+
+FAILURE REASON: division by zero
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #1
+SUITE: TestAssertionTypes
+TEST: TestAssertionTypes > test_almost_equal_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:169
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  170 |         """Test assertAlmostEqual failure."""
+  171 |         # These are not almost equal to 2 decimal places
+> 172 |         self.assertAlmostEqual(0.1 + 0.2, 0.31, places=2)
+  173 | 
+  174 |     def test_regex_failure(self):
+
+FAILURE REASON: 0.30000000000000004 != 0.31 within 2 places (0.009999999999999953 difference)
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: TestAssertionTypes
+TEST: TestAssertionTypes > test_comparison_failures
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:162
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  162 |     def test_comparison_failures(self):
+  163 |         """Test comparison assertion failures."""
+> 164 |         self.assertGreater(5, 10)
+  165 |         self.assertLess(10, 5)
+  166 |         self.assertGreaterEqual(4, 5)
+
+FAILURE REASON: 5 not greater than 10
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #3
+SUITE: TestAssertionTypes
+TEST: TestAssertionTypes > test_in_failures
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:156
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  157 |         """Test assertIn and assertNotIn failures."""
+  158 |         items = ["apple", "banana", "orange"]
+> 159 |         self.assertIn("grape", items)
+  160 |         self.assertNotIn("apple", items)  # Won't be reached
+  161 | 
+
+FAILURE REASON: 'grape' not found in ['apple', 'banana', 'orange']
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #4
+SUITE: TestAssertionTypes
+TEST: TestAssertionTypes > test_is_failures
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:150
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  152 |         a = [1, 2, 3]
+  153 |         b = [1, 2, 3]  # Different object
+> 154 |         self.assertIs(a, b)  # Fails - different objects
+  155 | 
+  156 |     def test_in_failures(self):
+
+FAILURE REASON: [1, 2, 3] is not [1, 2, 3]
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #5
+SUITE: TestAssertionTypes
+TEST: TestAssertionTypes > test_raises_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:180
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  183 |             return 42  # Doesn't raise exception
+  184 | 
+> 185 |         with self.assertRaises(ValueError):
+  186 |             safe_function()
+  187 | 
+
+FAILURE REASON: ValueError not raised
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #6
+SUITE: TestAssertionTypes
+TEST: TestAssertionTypes > test_regex_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:174
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  176 |         text = "Hello World"
+  177 |         pattern = r"^Goodbye.*"
+> 178 |         self.assertRegex(text, pattern)
+  179 | 
+  180 |     def test_raises_failure(self):
+
+FAILURE REASON: Regex didn't match: '^Goodbye.*' not found in 'Hello World'
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #7
+SUITE: TestAssertionTypes
+TEST: TestAssertionTypes > test_true_false_failures
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:145
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  145 |     def test_true_false_failures(self):
+  146 |         """Test assertTrue and assertFalse failures."""
+> 147 |         self.assertTrue(False)
+  148 |         self.assertFalse(True)  # Won't be reached
+  149 | 
+
+FAILURE REASON: False is not true
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #1
+SUITE: TestComplexFailures
+TEST: TestComplexFailures > test_custom_exception
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:113
+TYPE: CustomError
+
+
+CODE CONTEXT:
+  117 | 
+  118 |         def risky_operation():
+> 119 |             raise CustomError("Operation failed due to custom reason")
+  120 | 
+  121 |         result = risky_operation()
+
+FAILURE REASON: Operation failed due to custom reason
+FIX HINT: Review error message and stack trace for details
+
+---
+## TEST FAILURE #2
+SUITE: TestComplexFailures
+TEST: TestComplexFailures > test_list_comparison_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:107
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  109 |         expected = [1, 2, 3, 4, 5]
+  110 |         actual = [1, 2, 30, 40, 5]
+> 111 |         self.assertEqual(actual, expected)
+  112 | 
+  113 |     def test_custom_exception(self):
+
+FAILURE REASON: Lists differ: [1, 2, 30, 40, 5] != [1, 2, 3, 4, 5]
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #3
+SUITE: TestComplexFailures
+TEST: TestComplexFailures > test_multiple_assertions_fail
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:124
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  125 |         """Multiple assertions where first fails."""
+  126 |         value = 5
+> 127 |         self.assertGreater(value, 10)  # This fails
+  128 |         self.assertLess(value, 3)      # This won't be reached
+  129 |         self.assertEqual(value, 0)     # This won't be reached either
+
+FAILURE REASON: 5 not greater than 10
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #4
+SUITE: TestComplexFailures
+TEST: TestComplexFailures > test_nested_assertion_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:83
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  103 |         }
+  104 | 
+> 105 |         self.assertEqual(actual, expected)
+  106 | 
+  107 |     def test_list_comparison_failure(self):
+
+FAILURE REASON: {'use[14 chars]John', 'settings': {'theme': 'light', 'notifications': False}}} != {'use[14 chars]John', 'settings': {'theme': 'dark', 'notifications': True}}}
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #5
+SUITE: TestComplexFailures
+TEST: TestComplexFailures > test_timeout_simulation
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:131
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  137 | 
+  138 |         # This assertion will fail
+> 139 |         self.assertEqual(total, 0)
+  140 | 
+  141 | 
+
+FAILURE REASON: 499999500000 != 0
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #1
+SUITE: TestSetUpFailures
+TEST: TestSetUpFailures > test_empty_list_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:201
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  201 |     def test_empty_list_failure(self):
+  202 |         """Test expecting non-empty list."""
+> 203 |         self.assertTrue(len(self.items) > 0)  # List is empty
+  204 | 
+  205 |     def test_missing_setup_key(self):
+
+FAILURE REASON: False is not true
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: TestSetUpFailures
+TEST: TestSetUpFailures > test_missing_setup_key
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:205
+TYPE: KeyError
+
+
+CODE CONTEXT:
+  205 |     def test_missing_setup_key(self):
+  206 |         """Test accessing non-existent setup data."""
+> 207 |         value = self.data["missing_key"]
+  208 |         self.assertEqual(value, "expected")
+  209 | 
+
+FAILURE REASON: 'missing_key'
+FIX HINT: Verify dictionary key exists before access
+
+---
+## TEST FAILURE #3
+SUITE: TestSetUpFailures
+TEST: TestSetUpFailures > test_wrong_setup_value
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:197
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  197 |     def test_wrong_setup_value(self):
+  198 |         """Test expecting different setup value."""
+> 199 |         self.assertEqual(self.data["value"], 200)  # Expects 200, gets 100
+  200 | 
+  201 |     def test_empty_list_failure(self):
+
+FAILURE REASON: 100 != 200
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #1
+SUITE: TestStringFailures
+TEST: TestStringFailures > test_string_case_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:224
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  224 |     def test_string_case_failure(self):
+  225 |         """Test string case mismatch."""
+> 226 |         self.assertEqual("HELLO", "hello")  # Case mismatch
+  227 | 
+  228 |     def test_string_strip_failure(self):
+
+FAILURE REASON: 'HELLO' != 'hello'
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: TestStringFailures
+TEST: TestStringFailures > test_string_contains_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:219
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  220 |         """Test string contains failure."""
+  221 |         text = "Hello World"
+> 222 |         self.assertIn("Goodbye", text)
+  223 | 
+  224 |     def test_string_case_failure(self):
+
+FAILURE REASON: 'Goodbye' not found in 'Hello World'
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #3
+SUITE: TestStringFailures
+TEST: TestStringFailures > test_string_startswith_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:214
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  215 |         """Test string startswith failure."""
+  216 |         text = "Python Testing"
+> 217 |         self.assertTrue(text.startswith("Java"))
+  218 | 
+  219 |     def test_string_contains_failure(self):
+
+FAILURE REASON: False is not true
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #4
+SUITE: TestStringFailures
+TEST: TestStringFailures > test_string_strip_failure
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_all_failing.py:228
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  230 |         text = "  spaces  "
+  231 |         # Expecting it to not strip spaces
+> 232 |         self.assertEqual(text.strip(), "  spaces  ")
+  233 | 
+  234 | 
+
+FAILURE REASON: 'spaces' != '  spaces  '
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #1
+SUITE: TestAsyncBehavior
+TEST: TestAsyncBehavior > test_assertion_with_message
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:80
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+   82 |         expected = [1, 2, 3]
+   83 |         actual = [1, 2, 4]
+>  84 |         self.assertEqual(actual, expected,
+   85 |                         "Lists should match but third element differs")
+   86 | 
+
+FAILURE REASON: Lists differ: [1, 2, 4] != [1, 2, 3]
+
+
+ : Lists should match but third element differs
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: TestAsyncBehavior
+TEST: TestAsyncBehavior > test_value_error
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:74
+TYPE: ValueError
+
+
+CODE CONTEXT:
+   75 |         """Test that should fail with ValueError."""
+   76 |         # This will raise ValueError
+>  77 |         number = int("not a number")
+   78 |         self.assertEqual(number, 42)
+   79 | 
+
+FAILURE REASON: invalid literal for int() with base 10: 'not a number'
+FIX HINT: Check input format and conversion logic
+
+---
+## TEST FAILURE #1
+SUITE: TestCustomAssertions
+TEST: TestCustomAssertions > test_dict_comparison_fail
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:163
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  165 |         expected = {"name": "John", "age": 30, "city": "NYC"}
+  166 |         actual = {"name": "John", "age": 25, "city": "LA"}
+> 167 |         self.assertEqual(actual, expected)
+  168 | 
+  169 |     def test_passing_custom_check(self):
+
+FAILURE REASON: {'name': 'John', 'age': 25, 'city': 'LA'} != {'name': 'John', 'age': 30, 'city': 'NYC'}
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: TestCustomAssertions
+TEST: TestCustomAssertions > test_list_comparison_fail
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:157
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  159 |         expected = [1, 2, 3, 4, 5]
+  160 |         actual = [1, 2, 30, 40, 5]
+> 161 |         self.assertEqual(actual, expected)
+  162 | 
+  163 |     def test_dict_comparison_fail(self):
+
+FAILURE REASON: Lists differ: [1, 2, 30, 40, 5] != [1, 2, 3, 4, 5]
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #3
+SUITE: TestCustomAssertions
+TEST: TestCustomAssertions > test_unexpected_success
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:177
+
+---
+## TEST FAILURE #1
+SUITE: TestMixedResults
+TEST: TestMixedResults > test_failing_equality
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:17
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+   18 |         """This test should fail with assertion error."""
+   19 |         result = 2 + 2
+>  20 |         self.assertEqual(result, 5)  # This will fail
+   21 | 
+   22 |     def test_passing_comparison(self):
+
+FAILURE REASON: 4 != 5
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #2
+SUITE: TestMixedResults
+TEST: TestMixedResults > test_failing_key_error
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:46
+TYPE: KeyError
+
+
+CODE CONTEXT:
+   48 |         data = {"name": "John", "age": 30}
+   49 |         # This will raise KeyError
+>  50 |         value = data["city"]
+   51 |         self.assertEqual(value, "New York")
+   52 | 
+
+FAILURE REASON: 'city'
+FIX HINT: Verify dictionary key exists before access
+
+---
+## TEST FAILURE #3
+SUITE: TestMixedResults
+TEST: TestMixedResults > test_failing_type_error
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:28
+TYPE: TypeError
+
+
+CODE CONTEXT:
+   29 |         """This test should fail with type error."""
+   30 |         # This will raise TypeError
+>  31 |         result = "string" + 5
+   32 |         self.assertEqual(result, "string5")
+   33 | 
+
+FAILURE REASON: can only concatenate str (not "int") to str
+FIX HINT: Verify data types match expected values
+
+---
+## TEST FAILURE #1
+SUITE: TestMultipleFailures
+TEST: TestMultipleFailures > test_attribute_error
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:136
+TYPE: AttributeError
+
+
+CODE CONTEXT:
+  138 |         data = {"key": "value"}
+  139 |         # This will raise AttributeError
+> 140 |         result = data.non_existent_method()
+  141 |         self.assertIsNotNone(result)
+  142 | 
+
+FAILURE REASON: 'dict' object has no attribute 'non_existent_method'
+FIX HINT: Verify object has the attribute or method
+
+---
+## TEST FAILURE #2
+SUITE: TestMultipleFailures
+TEST: TestMultipleFailures > test_index_error
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:129
+TYPE: IndexError
+
+
+CODE CONTEXT:
+  131 |         items = [1, 2, 3]
+  132 |         # This will raise IndexError
+> 133 |         item = items[10]
+  134 |         self.assertEqual(item, 4)
+  135 | 
+
+FAILURE REASON: list index out of range
+FIX HINT: Check array bounds before accessing elements
+
+---
+## TEST FAILURE #3
+SUITE: TestMultipleFailures
+TEST: TestMultipleFailures > test_multiple_assertions_first_fails
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:122
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  123 |         """Multiple assertions where first fails."""
+  124 |         value = 5
+> 125 |         self.assertGreater(value, 10)  # This fails
+  126 |         self.assertLess(value, 3)       # This won't be reached
+  127 |         self.assertEqual(value, 0)      # This won't be reached either
+
+FAILURE REASON: 5 not greater than 10
+FIX HINT: Review assertion logic and expected values
+
+---
+## TEST FAILURE #1
+SUITE: TestSetUpTearDown
+TEST: TestSetUpTearDown > test_failing_file_content
+FILE: /Users/boyd/wip/reporters/python/unittest-reporter/tests/test_mixed_results.py:103
+TYPE: AssertionError
+
+
+CODE CONTEXT:
+  105 |         with open(self.temp_file, "r") as f:
+  106 |             content = f.read()
+> 107 |         self.assertEqual(content, "wrong content")  # This will fail
+  108 | 
+  109 |     def test_passing_file_exists(self):
+
+FAILURE REASON: 'test content' != 'wrong content'
+FIX HINT: Review assertion logic and expected values
+
+---
+---
+## SUMMARY
+- TOTAL TESTS: 74 (30 passed, 41 failed, 3 skipped)
+- FAILURE RATE: 55.41%
+- DURATION: 0.05s
+- EXIT CODE: 1

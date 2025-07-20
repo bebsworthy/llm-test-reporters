@@ -9,11 +9,16 @@ from pathlib import Path
 from typing import List, Optional, Tuple, Dict, Any, TextIO
 from datetime import datetime
 
-# Import from local copies of shared modules
-from .config import ReporterConfig
-from .models import TestSuite, TestResult, TestStatus, ErrorInfo
-from .formatters import StreamingFormatter
-from .error_classifier import ErrorClassifier
+# Import from shared package
+from llm_reporter_shared import (
+    ReporterConfig,
+    StreamingFormatter,
+    ErrorClassifier,
+    TestSuite,
+    TestResult,
+    TestStatus,
+    ErrorInfo
+)
 
 
 class LLMTestResult(unittest.TestResult):
@@ -38,6 +43,9 @@ class LLMTestResult(unittest.TestResult):
         if not self._started:
             self.formatter.start()
             self._started = True
+        
+        # Store test start time
+        self._test_start_time = time.time()
         
         # Get test module/class as suite
         module_name = test.__class__.__module__
@@ -120,13 +128,54 @@ class LLMTestResult(unittest.TestResult):
         
         self.current_suite.tests.append(test_result)
         
+    def _clean_error_message(self, message: str) -> str:
+        """Clean up unittest's assertion messages."""
+        lines = message.split('\n')
+        cleaned_lines = []
+        
+        skip_mode = False
+        for i, line in enumerate(lines):
+            # Skip unittest-specific formatting
+            if any(skip in line for skip in [
+                "First differing element",
+                "Use -v to get more diff",
+                "Differing items:",
+            ]):
+                skip_mode = True
+                continue
+                
+            # Skip diff lines starting with -, +, or ?
+            if line.startswith(('- ', '+ ', '? ')):
+                continue
+                
+            # Skip lines that look like abbreviated diffs
+            if '...' in line and (line.startswith('- [') or line.startswith('+ [')):
+                continue
+                
+            # Reset skip mode on empty line
+            if not line.strip() and skip_mode:
+                skip_mode = False
+                continue
+                
+            if not skip_mode:
+                cleaned_lines.append(line)
+        
+        # Join and clean up
+        result = '\n'.join(cleaned_lines).strip()
+        
+        # Handle simple assertions
+        if result.startswith("assert "):
+            result = result[7:]
+            
+        return result
+    
     def _extract_error_info(self, err: Tuple[type, BaseException, Any]) -> ErrorInfo:
         """Extract error information from exception info."""
         exc_type, exc_value, exc_tb = err
         
         error_info = ErrorInfo(
             type=exc_type.__name__,
-            message=str(exc_value)
+            message=self._clean_error_message(str(exc_value))
         )
         
         # Extract traceback
@@ -242,6 +291,15 @@ class LLMTestRunner(unittest.TextTestRunner):
         )
         if hasattr(result, 'config'):
             result.config = self.config
+        return result
+    
+    def run(self, test):
+        """Run the test and suppress default output."""
+        result = self._makeResult()
+        result.startTestRun()
+        test(result)
+        result.stopTestRun()
+        # Don't print the default summary
         return result
 
 

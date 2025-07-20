@@ -28,6 +28,10 @@ pip install --upgrade pip
 echo "Installing requirements..."
 pip install -r "$SCRIPT_DIR/requirements.txt"
 
+# Install shared package first
+echo "Installing shared utilities..."
+cd "$SCRIPT_DIR/llm_reporter_shared" && pip install -e .
+
 # Install reporters in development mode
 echo "Installing pytest reporter..."
 cd "$SCRIPT_DIR/pytest-reporter" && pip install -e .

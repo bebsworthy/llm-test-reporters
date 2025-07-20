@@ -1,0 +1,1 @@
+validation/run-all.sh: line 153: pytest: command not found

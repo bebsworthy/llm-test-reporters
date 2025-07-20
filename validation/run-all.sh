@@ -162,7 +162,28 @@ run_reporter() {
                 return 1
             fi
             ;;
-        "unittest"|"behave")
+        "unittest")
+            if cd "$reporter_path" 2>/dev/null; then
+                # Set up Python path to include shared utilities
+                export PYTHONPATH="$PROJECT_ROOT/python:$PYTHONPATH"
+                
+                # Install the reporter in development mode if not already installed
+                pip install -e . > /dev/null 2>&1 || true
+                
+                # Run unittest with the LLM reporter
+                LLM_OUTPUT_MODE=$mode python -m llm_unittest_reporter > "$output_file" 2>&1 || true
+                
+                # Check if output was generated
+                if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
+                    echo -n ""  # Success - output generated
+                else
+                    return 1
+                fi
+            else
+                return 1
+            fi
+            ;;
+        "behave")
             # Not implemented yet
             return 1
             ;;

@@ -2,6 +2,7 @@
 > @llm-reporters/jest-reporter@0.1.0 test:example
 > jest --config=jest.example.config.js
 
+A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure that .unref() was called on them.
 
 # LLM TEST REPORTER - DETAILED MODE
 
@@ -108,5 +109,5 @@ FIX HINT: Check variable types and ensure proper initialization
 ## SUMMARY
 - TOTAL TESTS: 11 (5 passed, 5 failed)
 - FAILURE RATE: 45.45%
-- DURATION: 1.83s
+- DURATION: 1.88s
 - EXIT CODE: 1

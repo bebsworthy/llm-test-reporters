@@ -196,7 +196,8 @@ class LLMReporter:
         # Clear terminal reporter stats to suppress default output
         terminalreporter._session = None
         terminalreporter.stats.clear()
-        terminalreporter._durations.clear()
+        if hasattr(terminalreporter, '_durations'):
+            terminalreporter._durations.clear()
         
         # Don't show the summary
         terminalreporter.summary_errors = lambda: None

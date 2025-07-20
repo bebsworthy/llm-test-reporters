@@ -18,8 +18,10 @@ export class ConfigManager {
   private loadFromEnvironment(): void {
     const env = process.env;
 
-    if (env.LLM_REPORTER_MODE) {
-      const mode = env.LLM_REPORTER_MODE.toLowerCase();
+    // Check both LLM_REPORTER_MODE and LLM_OUTPUT_MODE for compatibility
+    const modeValue = env.LLM_REPORTER_MODE || env.LLM_OUTPUT_MODE;
+    if (modeValue) {
+      const mode = modeValue.toLowerCase();
       if (mode === 'summary' || mode === 'detailed') {
         this.config.mode = mode as OutputMode;
       }

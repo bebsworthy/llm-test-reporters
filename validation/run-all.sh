@@ -62,9 +62,12 @@ run_reporter() {
     case "$framework" in
         "jest")
             if cd "$reporter_path" 2>/dev/null && npm run build > /dev/null 2>&1; then
-                # Run test and capture full output
-                if LLM_REPORTER_MODE=$mode npm run test:example 2>&1 > "$output_file"; then
-                    echo -n ""  # Success - no output in summary mode
+                # Run test and capture full output (ignore exit code since tests may fail)
+                LLM_REPORTER_MODE=$mode npm run test:example > "$output_file" 2>&1 || true
+                
+                # Check if output was generated
+                if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
+                    echo -n ""  # Success - output generated
                 else
                     return 1
                 fi
@@ -74,9 +77,12 @@ run_reporter() {
             ;;
         "vitest")
             if cd "$reporter_path" 2>/dev/null && npm run build > /dev/null 2>&1; then
-                # Run test and capture full output
-                if LLM_REPORTER_MODE=$mode npm run test:example 2>&1 > "$output_file"; then
-                    echo -n ""  # Success - no output in summary mode
+                # Run test and capture full output (ignore exit code since tests may fail)
+                LLM_REPORTER_MODE=$mode npm run test:example > "$output_file" 2>&1 || true
+                
+                # Check if output was generated
+                if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
+                    echo -n ""  # Success - output generated
                 else
                     return 1
                 fi
@@ -86,9 +92,12 @@ run_reporter() {
             ;;
         "mocha")
             if cd "$reporter_path" 2>/dev/null && npm run build > /dev/null 2>&1; then
-                # Run test and capture full output
-                if LLM_OUTPUT_MODE=$mode npm test 2>&1 > "$output_file"; then
-                    echo -n ""  # Success - no output in summary mode
+                # Run test and capture full output (ignore exit code since tests may fail)
+                LLM_REPORTER_MODE=$mode npm test > "$output_file" 2>&1 || true
+                
+                # Check if output was generated
+                if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
+                    echo -n ""  # Success - output generated
                 else
                     return 1
                 fi
@@ -101,9 +110,12 @@ run_reporter() {
                 # Ensure Playwright browsers are installed
                 npx playwright install chromium > /dev/null 2>&1 || true
                 
-                # Run test and capture full output
-                if LLM_OUTPUT_MODE=$mode npm run test:example 2>&1 > "$output_file"; then
-                    echo -n ""  # Success - no output in summary mode
+                # Run test and capture full output (ignore exit code since tests may fail)
+                LLM_REPORTER_MODE=$mode npm run test:example > "$output_file" 2>&1 || true
+                
+                # Check if output was generated
+                if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
+                    echo -n ""  # Success - output generated
                 else
                     return 1
                 fi
@@ -116,9 +128,12 @@ run_reporter() {
                 # Ensure Cypress is installed
                 npx cypress install > /dev/null 2>&1 || true
                 
-                # Run test and capture full output
-                if LLM_OUTPUT_MODE=$mode npm run test:example 2>&1 > "$output_file"; then
-                    echo -n ""  # Success - no output in summary mode
+                # Run test and capture full output (ignore exit code since tests may fail)
+                LLM_REPORTER_MODE=$mode npm run test:example > "$output_file" 2>&1 || true
+                
+                # Check if output was generated
+                if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
+                    echo -n ""  # Success - output generated
                 else
                     return 1
                 fi

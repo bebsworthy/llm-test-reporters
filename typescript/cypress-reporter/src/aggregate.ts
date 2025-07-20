@@ -101,8 +101,8 @@ function aggregate(): void {
     }
   });
 
-  // Get configuration from environment
-  const mode = process.env.LLM_OUTPUT_MODE || 'summary';
+  // Get configuration from environment (check both variable names for compatibility)
+  const mode = process.env.LLM_REPORTER_MODE || process.env.LLM_OUTPUT_MODE || 'summary';
   const includePassedSuites = process.env.LLM_INCLUDE_PASSED_SUITES === 'true';
   
   const config = new ConfigManager({

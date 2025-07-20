@@ -206,7 +206,7 @@ run_reporter() {
                     export PYTHONPATH="$PROJECT_ROOT/python:$PYTHONPATH"
                     
                     # Run unittest with the LLM reporter
-                    LLM_OUTPUT_MODE=$mode python -m llm_unittest_reporter --start-directory tests > "$output_file" 2>&1 || true
+                    LLM_OUTPUT_MODE=$mode python -u -m llm_unittest_reporter --start-directory tests > "$output_file" 2>&1 || true
                 )
                 
                 # Check if output was generated
@@ -418,7 +418,7 @@ echo "Running format validation..."
 setup_python_env
 
 # Run validation with virtual environment Python
-if "$PYTHON_VENV/bin/python" "$SCRIPT_DIR/compare-outputs.py" "$RESULTS_DIR"; then
+if "$PYTHON_VENV/bin/python" -u "$SCRIPT_DIR/compare-outputs.py" "$RESULTS_DIR"; then
     echo "Format validation passed"
 else
     echo "Format validation found issues - see report above"

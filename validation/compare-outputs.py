@@ -11,6 +11,10 @@ import json
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+# Force unbuffered output
+sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
+sys.stderr = os.fdopen(sys.stderr.fileno(), 'w', buffering=1)
+
 # Configuration constants
 MAX_LINES_BEFORE_HEADER = 5  # Maximum allowed lines before the LLM TEST REPORTER header
 MAX_LINES_AFTER_EXIT = 4     # Maximum allowed lines after the EXIT CODE line
@@ -110,6 +114,7 @@ class OutputComparator:
         print("\n" + "="*60)
         print("LLM Test Reporter Format Validation Report")
         print("="*60)
+        sys.stdout.flush()
         
         # Summary
         total_files = len(results['files'])
@@ -118,6 +123,7 @@ class OutputComparator:
         print(f"\nFiles analyzed: {total_files}")
         print(f"Valid formats: {valid_files}")
         print(f"Invalid formats: {total_files - valid_files}")
+        sys.stdout.flush()
         
         # Format validation details
         if any(not f['valid'] for f in results['files'].values()):
@@ -142,6 +148,8 @@ class OutputComparator:
             print("\n✓ All files pass format validation!")
         else:
             print(f"\n✗ {total_files - valid_files} file(s) failed format validation")
+        
+        sys.stdout.flush()
 
 def main():
     if len(sys.argv) < 2:
@@ -185,6 +193,7 @@ def main():
         json.dump(results, f, indent=2)
     
     print(f"\nDetailed results saved to: {results_file}")
+    sys.stdout.flush()
     
     # Exit with error if validation failed
     if not all(f['valid'] for f in results['files'].values()):

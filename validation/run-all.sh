@@ -198,7 +198,27 @@ run_reporter() {
                 return 1
             fi
             ;;
-        "testing"|"testify")
+        "testing")
+            if cd "$reporter_path" 2>/dev/null; then
+                # Build the reporter
+                if go build -o llm-go-test . > /dev/null 2>&1; then
+                    # Run tests and capture output
+                    ./llm-go-test -mode $mode -output "$output_file" ./tests || true
+                    
+                    # Check if output was generated
+                    if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
+                        echo -n ""  # Success
+                    else
+                        return 1
+                    fi
+                else
+                    return 1
+                fi
+            else
+                return 1
+            fi
+            ;;
+        "testify")
             # Not implemented yet
             return 1
             ;;

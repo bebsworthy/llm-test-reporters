@@ -160,8 +160,8 @@ run_reporter() {
                     source "$PYTHON_VENV/bin/activate"
                     export PYTHONPATH="$PROJECT_ROOT/python:$PYTHONPATH"
                     
-                    # Run pytest with the LLM reporter (-s for no capture, --tb=no to hide tracebacks)
-                    LLM_OUTPUT_MODE=$mode pytest --llm-reporter -s --tb=no tests/ > "$output_file" 2>&1 || true
+                    # Run pytest with the LLM reporter (-p no:terminal to disable default output)
+                    LLM_OUTPUT_MODE=$mode pytest -p no:terminal --llm-reporter tests/ > "$output_file" 2>&1 || true
                 )
                 
                 # Check if output was generated

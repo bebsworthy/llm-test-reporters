@@ -111,6 +111,47 @@ class LLMReporter:
         
         self.current_suite.tests.append(test_result)
     
+    def _clean_error_message(self, message: str) -> str:
+        """Clean up pytest's assertion messages."""
+        # Remove assert prefix
+        if message.startswith("assert "):
+            message = message[7:]
+        
+        # Handle pytest's detailed assertion output
+        lines = message.split('\n')
+        cleaned_lines = []
+        
+        for line in lines:
+            # Skip pytest-specific formatting
+            if any(skip in line for skip in [
+                "+ where", 
+                "Use -v to get more diff",
+                "At index",
+                "Differing items:",
+                "Full diff:",
+                "Left contains",
+                "Right contains",
+                "...Full output truncated"
+            ]):
+                continue
+            
+            # Clean up line
+            line = line.strip()
+            if line and not line.startswith(('+', '-', '?', '~')):
+                cleaned_lines.append(line)
+        
+        # Join and return
+        result = '\n'.join(cleaned_lines).strip()
+        
+        # If we have a simple comparison, extract just that
+        import re
+        simple_compare = re.match(r'^(\S+)\s*(==|!=|<|>|<=|>=|is|is not|in|not in)\s*(.+)$', result)
+        if simple_compare:
+            return result
+        
+        # Otherwise return the cleaned message
+        return result or message
+    
     def _process_setup_failure(self, report: TestReport):
         """Process setup failure."""
         if self.current_suite and report.longrepr:
@@ -132,7 +173,7 @@ class LLMReporter:
             # Extract from reprcrash
             reprcrash = report.longrepr.reprcrash
             error_info.type = reprcrash.message.split(":")[0] if ":" in reprcrash.message else "Error"
-            error_info.message = reprcrash.message
+            error_info.message = self._clean_error_message(reprcrash.message)
         
         # Extract traceback and values
         if hasattr(report.longrepr, "reprtraceback"):
@@ -149,7 +190,7 @@ class LLMReporter:
                             lines.append(str(line))
                     
                     # Format code context with line numbers
-                    if lines and hasattr(last_entry, "reprfileloc"):
+                    if lines and hasattr(last_entry, "reprfileloc") and last_entry.reprfileloc:
                         line_num = last_entry.reprfileloc.lineno
                         formatted_lines = []
                         
@@ -161,6 +202,16 @@ class LLMReporter:
                             formatted_lines.append(f"{prefix} {current_line:3d} | {line}")
                         
                         error_info.code_context = "\n".join(formatted_lines)
+        
+        # If we didn't get a good message from reprcrash, try str(longrepr)
+        if error_info.message == "Test failed" and hasattr(report, 'longrepr'):
+            full_message = str(report.longrepr)
+            # Extract just the assertion line if present
+            lines = full_message.split('\n')
+            for line in lines:
+                if 'assert' in line or '==' in line or '!=' in line:
+                    error_info.message = self._clean_error_message(line)
+                    break
         
         # Extract expected/actual values
         expected, actual = self.classifier.extract_values(error_info.message)
@@ -194,7 +245,7 @@ class LLMReporter:
             return
             
         # Clear terminal reporter stats to suppress default output
-        terminalreporter._session = None
+        # Don't set _session to None as pytest still needs it
         terminalreporter.stats.clear()
         if hasattr(terminalreporter, '_durations'):
             terminalreporter._durations.clear()
@@ -204,6 +255,24 @@ class LLMReporter:
         terminalreporter.summary_failures = lambda: None
         terminalreporter.summary_warnings = lambda: None
         terminalreporter.short_test_summary = lambda: None
+    
+    def pytest_report_teststatus(self, report, config):
+        """Override test status to suppress progress output."""
+        # Only process if reporter is active
+        if not hasattr(self.config.option, 'llm_reporter_active') or not self.config.option.llm_reporter_active:
+            return
+        
+        # Return empty status to suppress progress indicators
+        return "", "", ""
+    
+    def pytest_report_header(self, config, start_path):
+        """Suppress pytest header."""
+        # Only process if reporter is active
+        if not hasattr(self.config.option, 'llm_reporter_active') or not self.config.option.llm_reporter_active:
+            return
+        
+        # Return empty list to suppress header
+        return []
 
 
 def pytest_addoption(parser):
@@ -252,10 +321,10 @@ def pytest_configure(config):
         # Register hooks
         config.pluginmanager.register(reporter, "llm_reporter_instance")
         
-        # Disable default terminal reporter output when using file output
-        if reporter.reporter_config.output_file:
-            config.option.verbose = -1
-            config.option.quiet = True
-            if terminal_reporter:
-                terminal_reporter.showheader = False
-                terminal_reporter.showfspath = False
+        # Suppress default terminal reporter output 
+        config.option.verbose = -1
+        config.option.quiet = True
+        if terminal_reporter:
+            terminal_reporter.showheader = False
+            terminal_reporter.showfspath = False
+            terminal_reporter.showprogress = False

@@ -3,7 +3,7 @@
 > rm -rf .cypress-results; LLM_OUTPUT_MODE=json cypress run --config-file cypress.example.config.ts --quiet; node ./dist/aggregate.js
 
 
-DevTools listening on ws://127.0.0.1:58755/devtools/browser/5661e0ac-fa61-4c3a-adca-2e37957c87ed
+DevTools listening on ws://127.0.0.1:64903/devtools/browser/73ddc352-9285-427d-baef-11124f931c25
 Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
 
 # LLM TEST REPORTER - SUMMARY MODE

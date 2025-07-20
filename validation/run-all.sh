@@ -223,8 +223,9 @@ run_reporter() {
             if cd "$reporter_path" 2>/dev/null; then
                 # Build the reporter
                 if go build -o llm-go-test . > /dev/null 2>&1; then
-                    # Run tests and capture output
-                    ./llm-go-test -mode $mode -output "$output_file" ./tests > /dev/null 2>&1 || true
+                    # Run tests and write output directly, discard stdout to avoid interference
+                    ./llm-go-test -mode $mode -output "$output_file" ./tests > /dev/null 2>&1
+                    local exit_code=$?
                     
                     # Check if output was generated
                     if [ -s "$output_file" ] && grep -q "# LLM TEST REPORTER" "$output_file"; then
